@@ -1,0 +1,27 @@
+<%= form_with(model: pair) do |form| %>
+  <% if pair.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(pair.errors.count, "error") %> prohibited this pair from being saved:</h2>
+
+      <ul>
+        <% pair.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :player1_id %>
+    <%= form.select :player1_id, @players %>
+  </div>
+
+  <div class="field">
+    <%= form.label :player2_id %>
+    <%= form.select :player2_id, @players %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

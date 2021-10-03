@@ -1,0 +1,22 @@
+<p>
+  <strong>Pair:</strong>
+  <%= Pair.find(@rel_pair_comp.pair_id).name %>
+</p>
+
+<p>
+  <strong>Comp:</strong>
+  <%= Comp.find(@rel_pair_comp.comp_id).formatted_date %>
+</p>
+
+<p>
+  <strong>Score:</strong>
+  <%= @rel_pair_comp.score %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @rel_pair_comp.position %>
+</p>
+
+<%= link_to 'Edit', edit_rel_pair_comp_path(@rel_pair_comp) %> |
+<%= link_to 'Back', rel_pair_comps_path %>

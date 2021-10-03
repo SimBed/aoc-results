@@ -1,0 +1,37 @@
+<%= form_with(model: rel_pair_comp) do |form| %>
+  <% if rel_pair_comp.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(rel_pair_comp.errors.count, "error") %> prohibited this rel_pair_comp from being saved:</h2>
+
+      <ul>
+        <% rel_pair_comp.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :pair_id %>
+    <%= form.select :pair_id, @pairs %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comp_id %>
+    <%= form.select :comp_id, @comps %>
+  </div>
+
+  <div class="field">
+    <%= form.label :score %>
+    <%= form.number_field :score, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position %>
+    <%= form.number_field :position %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Create Result" %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<%= form_with(model: comp) do |form| %>
+  <% if comp.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(comp.errors.count, "error") %> prohibited this comp from being saved:</h2>
+
+      <ul>
+        <% comp.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_select :date %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

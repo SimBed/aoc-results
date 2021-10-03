@@ -1,0 +1,31 @@
+<h5>Results</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pair</th>
+      <th>Comp</th>
+      <th>Score</th>
+      <th>Position</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rel_pair_comps.each do |rel_pair_comp| %>
+      <tr>
+        <td><%= Pair.find(rel_pair_comp.pair_id).name %></td>
+        <td><%= Comp.find(rel_pair_comp.comp_id).formatted_date %></td>
+        <td><%= rel_pair_comp.score %></td>
+        <td><%= rel_pair_comp.position %></td>
+        <td><%= link_to 'Show', rel_pair_comp %></td>
+        <td><%= link_to 'Edit', edit_rel_pair_comp_path(rel_pair_comp) %></td>
+        <td><%= link_to 'Destroy', rel_pair_comp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Result', new_rel_pair_comp_path %>

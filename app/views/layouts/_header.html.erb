@@ -1,0 +1,39 @@
+<!-- animation with greensock -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+
+<nav class="navbar1 mb-2">
+  <ul class="navbar-nav">
+
+    <li class="nav-item home">
+      <%= link_to players_path, class: "nav-link" do %>
+        <%= image_tag("Cards.png", class: "style_icon", id: "testid") %>
+        <span class="link-text logo-text">Players</span>
+      <% end %>
+    </li>
+
+      <li class="nav-item">
+        <%= link_to pairs_path, class: "nav-link" do %>
+          <%= image_tag("Cards.png", class: "style_icon") %>
+          <span class="link-text">Pairs</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to comps_path, class: "nav-link" do %>
+          <%= image_tag("Cards.png", class: "style_icon") %>
+          <span class="link-text">Competitions</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item">
+        <%= link_to rel_pair_comps_path, class: "nav-link" do %>
+          <%= image_tag("Cards.png", class: "style_icon") %>
+          <span class="link-text">Results</span>
+        <% end %>
+      </li>
+
+
+</nav>
+<script>
+  gsap.from(".style_icon", {duration: 0.8, x: 150, stagger: 0.3});
+</script>
