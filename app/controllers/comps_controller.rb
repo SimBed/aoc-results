@@ -64,6 +64,6 @@ class CompsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comp_params
-      params.require(:comp).permit(:date)
+      params.require(:comp).permit(:date, :pair_count)
     end
 end

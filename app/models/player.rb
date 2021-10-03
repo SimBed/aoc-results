@@ -28,6 +28,15 @@ class Player < ApplicationRecord
     (score / rel_pair_comps.count).round(2)
   end
 
+  def average_position(field = 20)
+    pos_pct_accum = 0
+    rel_pair_comps.each do |rel|
+      pos_pct_accum += rel.position_pct
+    end
+    return pos_pct_accum if rel_pair_comps.count.zero?
+    ((pos_pct_accum / rel_pair_comps.count) * field).round(2)
+  end
+
   def full_name
     "#{self.first_name} #{self.last_name}"
   end

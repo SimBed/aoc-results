@@ -3,7 +3,8 @@ class RelPairCompsController < ApplicationController
 
   # GET /rel_pair_comps or /rel_pair_comps.json
   def index
-    @rel_pair_comps = RelPairComp.all.order_by_date_score
+  #  @rel_pair_comps = RelPairComp.all.order_by_date_score
+    @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| Pair.find(rel.pair_id).name }
   end
 
   # GET /rel_pair_comps/1 or /rel_pair_comps/1.json

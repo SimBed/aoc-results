@@ -1,10 +1,11 @@
-<h5>Pairs</h5>
+<h5>Pairs (<%=@pairs.count%>)</h5>
 
 <table>
   <thead>
     <tr>
       <th>Pair</th>
-      <th>Average Score</th>
+      <th>Av Score</th>
+      <th>Av Pos (of 20)</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
       <tr>
         <td><%= pair.name %></td>
         <td><%= pair.average_score %></td>
+        <td><%= pair.average_position %></td>
         <td><%= link_to 'Show', pair %></td>
         <td><%= link_to 'Edit', edit_pair_path(pair) %></td>
         <td><%= link_to 'Destroy', pair, method: :delete, data: { confirm: 'Are you sure?' } %></td>
