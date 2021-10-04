@@ -5,7 +5,7 @@ class Player < ApplicationRecord
   # has_many :rel_pair1_comps, class_name: 'RelPairComp', foreign_key: :pair_id, through: :pairs_as_player1s
   # has_many :rel_pair2_comps, through: :pairs_as_player1s
   # has_many :comps, through: :rel_pair_comps
-  scope :order_by_created, -> { order(created_at: :desc) }
+  scope :order_by_first_name, -> { order(first_name: :asc) }
 
   def pairs
     Pair.where("player1_id = ? OR player2_id = ?", self.id, self.id).to_a
@@ -39,5 +39,9 @@ class Player < ApplicationRecord
 
   def full_name
     "#{self.first_name} #{self.last_name}"
+  end
+
+  def played
+    rel_pair_comps.count
   end
 end

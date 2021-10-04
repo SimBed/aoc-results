@@ -1,10 +1,25 @@
 class RelPairCompsController < ApplicationController
+  helper_method :sort_column, :sort_direction
   before_action :set_rel_pair_comp, only: %i[ show edit update destroy ]
 
   # GET /rel_pair_comps or /rel_pair_comps.json
   def index
-  #  @rel_pair_comps = RelPairComp.all.order_by_date_score
-    @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| Pair.find(rel.pair_id).name }
+    case sort_column('index')
+
+    when 'Pair'
+      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| Pair.find(rel.pair_id).name }
+      @rel_pair_comps.reverse! if sort_direction == 'desc'
+    when 'Comp'
+      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| Comp.find(rel.comp_id).date }
+      @rel_pair_comps.reverse! if sort_direction == 'desc'
+      # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
+    when 'Score'
+      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| -rel.score }
+      @rel_pair_comps.reverse! if sort_direction == 'desc'
+    when 'Position'
+      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| -rel.position }
+      @rel_pair_comps.reverse! if sort_direction == 'desc'
+    end
   end
 
   # GET /rel_pair_comps/1 or /rel_pair_comps/1.json
@@ -70,5 +85,15 @@ class RelPairCompsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def rel_pair_comp_params
       params.require(:rel_pair_comp).permit(:pair_id, :comp_id, :score, :position)
+    end
+
+    def sort_column(view)
+      # Sanitizing the search options, so only items specified in the list can get through
+      case view
+      when 'index'
+        %w[Pair Comp Score Position].include?(params[:sort]) ? params[:sort] : 'Pair'
+      when 'show'
+        %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
+      end
     end
 end

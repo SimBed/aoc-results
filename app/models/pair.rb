@@ -23,10 +23,14 @@ class Pair < ApplicationRecord
     end
     return pos_pct_accum if rel_pair_comps.count.zero?
     ((pos_pct_accum / rel_pair_comps.count) * field).round(2)
-  end  
+  end
 
   def name
     "#{Player.find(self.player1_id).full_name} & #{Player.find(self.player2_id).full_name}"
+  end
+
+  def played
+    rel_pair_comps.count
   end
 
   private

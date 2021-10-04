@@ -1,12 +1,15 @@
+<%= link_to 'New Result', new_rel_pair_comp_path %>
+<br><br>
+
 <h5>Results</h5>
 
 <table>
   <thead>
     <tr>
-      <th>Pair</th>
-      <th>Comp</th>
-      <th>Score</th>
-      <th>Position</th>
+      <th><%= sortable(column: "Pair", view: "index") %></th>
+      <th><%= sortable(column: "Comp", view: "index") %></th>
+      <th><%= sortable(column: "Score", view: "index") %></th>
+      <th><%= sortable(column: "Position", view: "index") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,7 +28,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Result', new_rel_pair_comp_path %>

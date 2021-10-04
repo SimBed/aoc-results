@@ -1,9 +1,28 @@
 class PlayersController < ApplicationController
+  helper_method :sort_column, :sort_direction
   before_action :set_player, only: %i[ show edit update destroy ]
 
   # GET /players or /players.json
   def index
-    @players = Player.all.to_a.sort_by { |p| -p.average_score }
+    # Some columns to sort by are database table columns, some are methods.
+    # The table columns can be ordered at database level. The methods require
+    # the data to be extracted to a Ruby array and sorted from there.
+    case sort_column('index')
+
+    when 'first_name', 'last_name'
+      # if Player.column_names.include?(sort_column)
+      @players = Player.order("#{sort_column('index')} #{sort_direction}")
+    when 'AvScore'
+      @players = Player.all.to_a.sort_by { |p| -p.average_score }
+      @players.reverse! if sort_direction == 'desc'
+      # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
+    when 'AvPos'
+      @players = Player.all.to_a.sort_by { |p| -p.average_position }
+      @players.reverse! if sort_direction == 'desc'
+    when 'Played'
+      @players = Player.all.to_a.sort_by { |p| -p.played }
+      @players.reverse! if sort_direction == 'desc'
+    end
   end
 
   # GET /players/1 or /players/1.json
@@ -65,5 +84,15 @@ class PlayersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def player_params
       params.require(:player).permit(:first_name, :last_name)
+    end
+
+    def sort_column(view)
+      # Sanitizing the search options, so only items specified in the list can get through
+      case view
+      when 'index'
+        %w[first_name last_name AvScore AvPos Played].include?(params[:sort]) ? params[:sort] : 'first_name'
+      when 'show'
+        %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
+      end
     end
 end

@@ -1,9 +1,25 @@
 class PairsController < ApplicationController
+  helper_method :sort_column, :sort_direction
   before_action :set_pair, only: %i[ show edit update destroy ]
 
   # GET /pairs or /pairs.json
   def index
-    @pairs = Pair.all.to_a.sort_by { |p| -p.average_score }    
+    case sort_column('index')
+
+    when 'Pair'
+      @pairs = Pair.all.to_a.sort_by { |p| p.name }
+      @pairs.reverse! if sort_direction == 'desc'
+    when 'AvScore'
+      @pairs = Pair.all.to_a.sort_by { |p| -p.average_score }
+      @pairs.reverse! if sort_direction == 'desc'
+      # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
+    when 'AvPos'
+      @pairs = Pair.all.to_a.sort_by { |p| -p.average_position }
+      @pairs.reverse! if sort_direction == 'desc'
+    when 'Played'
+      @pairs = Pair.all.to_a.sort_by { |p| -p.played }
+      @pairs.reverse! if sort_direction == 'desc'
+    end
   end
 
   # GET /pairs/1 or /pairs/1.json
@@ -14,7 +30,7 @@ class PairsController < ApplicationController
   def new
     @pair = Pair.new
     # @players = Player.all.map(&:full_name)
-    @players =  Player.order_by_created.map { |p| [p.full_name, p.id] }
+    @players =  Player.order_by_first_name.map { |p| [p.full_name, p.id] }
   end
 
   # GET /pairs/1/edit
@@ -69,5 +85,15 @@ class PairsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def pair_params
       params.require(:pair).permit(:player1_id, :player2_id)
+    end
+
+    def sort_column(view)
+      # Sanitizing the search options, so only items specified in the list can get through
+      case view
+      when 'index'
+        %w[Pair AvScore AvPos Played].include?(params[:sort]) ? params[:sort] : 'Pair'
+      when 'show'
+        %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
+      end
     end
 end
