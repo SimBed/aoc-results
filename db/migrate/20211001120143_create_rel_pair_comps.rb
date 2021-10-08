@@ -4,7 +4,6 @@ class CreateRelPairComps < ActiveRecord::Migration[6.1]
       t.integer :pair_id
       t.integer :comp_id
       t.float :score
-      t.integer :position
 
       t.timestamps
     end

@@ -12,5 +12,5 @@ Comp.create([{date:'2021-10-01'}, {date:'2021-10-02'}])
 Pair.create(player1_id: Player.find_by(last_name:'Rosen').id, player2_id: Player.find_by(last_name:'Seale').id)
 Pair.create(player1_id: Player.find_by(last_name:'Mattison').id, player2_id: Player.find_by(last_name:'Vardy').id)
 
-RelPairComp.create(pair_id: Pair.find_by(player1_id: Player.find_by(last_name:'Rosen').id).id, comp_id: 1,score: 65, position: 1)
-RelPairComp.create(pair_id: Pair.find_by(player1_id: Player.find_by(last_name:'Mattison').id).id, comp_id: 1,score: 64, position: 2)
+RelPairComp.create(pair_id: Pair.find_by(player1_id: Player.find_by(last_name:'Rosen').id).id, comp_id: 1,score: 65)
+RelPairComp.create(pair_id: Pair.find_by(player1_id: Player.find_by(last_name:'Mattison').id).id, comp_id: 1,score: 64)

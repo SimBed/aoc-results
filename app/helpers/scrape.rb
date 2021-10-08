@@ -22,6 +22,10 @@ class Scrape
     pairs_array
     # ["Mike Christie, "Barbara Cohen","Gaby Friedman", "Ben Bor"...]
     players_array
+    players_add
+    pairs_add
+    comp_add
+    results_add
   end
 
   def switch_partner
