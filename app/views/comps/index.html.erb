@@ -16,7 +16,7 @@
     <% @comps.each do |comp| %>
       <tr>
         <td><%= comp.formatted_date %></td>
-        <td><%= comp.pair_count %></td>
+        <td><%= comp.pairs.count %></td>
         <td><%= link_to 'Show', comp %></td>
         <td><%= link_to 'Edit', edit_comp_path(comp) %></td>
         <td><%= link_to 'Destroy', comp, method: :delete, data: { confirm: 'Are you sure?' } %></td>

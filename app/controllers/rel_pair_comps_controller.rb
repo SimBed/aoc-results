@@ -17,7 +17,7 @@ class RelPairCompsController < ApplicationController
       @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| -rel.score }
       @rel_pair_comps.reverse! if sort_direction == 'desc'
     when 'Position'
-      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| -rel.position }
+      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| -rel.pos_numeric }
       @rel_pair_comps.reverse! if sort_direction == 'desc'
     end
   end

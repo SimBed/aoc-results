@@ -8,4 +8,5 @@ class Comp < ApplicationRecord
   def formatted_date
     date.strftime('%a %d %b %y')
   end
+
 end

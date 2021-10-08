@@ -34,7 +34,7 @@ class Player < ApplicationRecord
       pos_pct_accum += rel.position_pct
     end
     return pos_pct_accum if rel_pair_comps.count.zero?
-    ((pos_pct_accum / rel_pair_comps.count) * field).round(2)
+    ((pos_pct_accum / rel_pair_comps.count) * field).round(1)
   end
 
   def full_name
@@ -44,4 +44,5 @@ class Player < ApplicationRecord
   def played
     rel_pair_comps.count
   end
+
 end
