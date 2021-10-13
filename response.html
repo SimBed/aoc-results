@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>RealBridge</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+  </head>
+
+  <link rel="icon" href="icon.png"></link>
+
+  <body id="body_div" style="overflow: hidden; height: 100%" ondragstart="return false;">
+    <div id="background" style="overflow: hidden; position: fixed; left: 0%; top: 0%; width: 100%; height: 100%; background-color: #3b4a5c; pointer-events: none"></div>
+
+    <div id="playing_area">
+      <div id="table_flyer" style="position: absolute; left: 0%; width: 100%; top: 0%; height: 100%; background-color: #dddddd; opacity: 0; pointer-events: none;
+                                        font-family: campton, Helvetica, Arial, sans-serif; overflow:auto"></div>
+
+      <image id="alert_card_self" style="position: absolute; opacity: 0; pointer-events: none"></image>
+      <image id="alert_card_lho" style="position: absolute; opacity: 0; pointer-events: none"></image>
+      <image id="alert_card_rho" style="position: absolute; opacity: 0; pointer-events: none"></image>
+      <image id="alert_card_partner"style="position: absolute; opacity: 0; pointer-events: none"></image>
+      <image id="stop_card" style="position: absolute; opacity: 0; pointer-events: none"></image>
+
+      <div id="open_diagram_button" style="position: absolute"><img id="open_diag_but_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+
+      <div id="hand_diagram" style="position: fixed; opacity : 0; pointer-events: none; z-index: 50000; transform: 'translateZ(100000000)'; font-family: Roboto, Arial, sans-serif">
+        <div id="hd_self" style="position: absolute"></div>
+        <div id="hd_lho" style="position: absolute"></div>
+        <div id="hd_partner" style="position: absolute"></div>
+        <div id="hd_rho" style="position: absolute"></div>
+        <div id="hd_auction" style="position: absolute"></div>
+        <div id="close_diagram_button" style="position: absolute"><img id="close_diag_but_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+        <div id="table_button" style="position: absolute"><img id="table_but_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+        <div id="report_past_deal_button" style="position: absolute"><img id="report_past_deal_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+        <div id="hd_self_name" style="position: absolute"></div>
+        <div id="hd_partner_name" style="position: absolute"></div>
+        <div id="hd_lho_name" style="position: absolute"></div>
+        <div id="hd_rho_name" style="position: absolute"></div>
+        <div id="hd_board_info" style="position: absolute"></div>
+        <div id="hd_num_tricks_container" style="position: absolute">
+          <image id="hd_we_tricks_card" style="position: absolute; left: -10000px"></image>
+          <image id="hd_they_tricks_card" style="position: absolute; left: -10000px"></image>
+          <span id="hd_we_tricks_num" style="position: absolute; text-align: center; font-family: Roboto, Arial, sans-serif"></span>
+          <span id="hd_they_tricks_num" style="position: absolute; text-align: center; font-family: Roboto, Arial, sans-serif"></span>
+        </div>
+        <div id ="hd_forward_trick" style="position: absolute">
+          <image id="hd_for_chev_r" style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%"></image>
+        </div>
+        <div id ="hd_back_trick" style="position: absolute">
+          <image id="hd_for_chev_l" style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%"></image>
+        </div>
+
+        <select id="hd_adj_level" style="-webkit-appearance: none; -moz-appearance: none; appearance: none; position: absolute; opacity: 0">
+          <option value="0">P</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="-44">=/=</option>
+          <option value="-20">+/-</option>
+          <option value="-68">-/+</option>
+          <option value="-84" id="disable_imp_0">+/+</option>
+          <option value="-4" id="disable_imp_1">-/-</option>
+          <option value="-12" id="disable_imp_2">=/-</option>
+          <option value="-76" id="disable_imp_3">=/+</option>
+          <option value="-36" id="disable_imp_4">-/=</option>
+          <option value="-52" id="disable_imp_5">+/=</option>
+        </select>
+        <select id="hd_adj_strain" style="-webkit-appearance: none; -moz-appearance: none; appearance: none; position: absolute; opacity: 0">
+          <option value="0">&#x2663</option>
+          <option value="1">&#x2666</option>
+          <option value="2">&#x2665</option>
+          <option value="3">&#x2660</option>
+          <option value="4" id="locale_adj_nt">NT</option>
+        </select>
+        <select id="hd_adj_fix" style="-webkit-appearance: none; -moz-appearance: none; appearance: none; position: absolute; opacity: 0">
+          <option value="0">~</option>
+          <option value="1">=</option>
+        </select>
+        <select id="hd_adj_double" style="-webkit-appearance: none; -moz-appearance: none; appearance: none; position: absolute; opacity: 0">
+          <option value="0"></option>
+          <option value="1">X</option>
+          <option value="2">XX</option>
+        </select>
+        <select id="hd_adj_declarer" style="-webkit-appearance: none; -moz-appearance: none; appearance: none; position: absolute; opacity: 0">
+          <option value="0" id="locale_adj_n">N</option>
+          <option value="1" id="locale_adj_e">E</option>
+          <option value="2" id="locale_adj_s">S</option>
+          <option value="3" id="locale_adj_w">W</option>
+        </select>
+        <div id="hd_adj_tricks_label" style="position: absolute; opacity: 0">Tricks taken:</div>
+        <select id="hd_adj_result" style="-webkit-appearance: none; -moz-appearance: none; appearance: none; position: absolute; opacity: 0">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+        </select>
+        <div id="adjust_score_button" style="position: absolute" id="locale_save_adjustment">Save adjustment</div>
+      </div>
+    </div>
+
+    <div id="skip_deal_button" style="position: absolute" id="locale_skip_deal">Skip deal</div>
+    <div id="end_deal_button" style="position: absolute" id="locale_end_deal">End deal</div>
+    <div id="report_deal_button" style="position: absolute"><img id="report_deal_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+    <div id="dir_undo_button" style="position: absolute" id="locale_dir_undo">Undo</div>
+    <select id="dir_undo_select" style="position: absolute">
+      <option value="0"></option>
+      <option value="1" id="dir_undo_1">1 action</option>
+      <option value="2" id="dir_undo_play">Play</option>
+      <option value="3" id="dir_undo_all">All</option>
+    </select>
+
+    <div id="table_info_container" style="position: fixed; font-family: Roboto, Arial, sans-serif"></div>
+    <div id="timer_container" style="position: fixed; font-family: Roboto, Arial, sans-serif"></div>
+
+    <div id="contract_container" style="border-radius: 0px 10px 10px 0px">
+      <img id="contract_double"></img>
+      <img id="contract_contract"></img>
+      <div id="contract_declarer"></div>
+    </div>
+
+    <div id="num_tricks_container" style="position: fixed">
+      <image id="we_tricks_card" style="position: absolute"></image>
+      <image id="they_tricks_card" style="position: absolute"></image>
+      <span id="we_tricks_num" style="position: absolute; text-align: center; font-family: Roboto, Arial, sans-serif"></span>
+      <span id="they_tricks_num" style="position: absolute; text-align: center; font-family: Roboto, Arial, sans-serif"></span>
+    </div>
+
+    <div id="lho_apron" style="position: fixed; pointer-events: none"></div>
+    <div id="rho_apron" style="position: fixed; pointer-events: none"></div>
+    <div id="self_apron" style="position: fixed; pointer-events: none"></div>
+    <div id="partner_apron" style="position: fixed; pointer-events: none"></div>
+
+    <div id ="lho_back" style="position: fixed"></div>
+    <div id ="rho_back" style="position: fixed"></div>
+
+    <div id="lho_container" allowfullscreen="false">
+      <img id="lho_video_icon" style="background-color: #3b4a5c; position:absolute; left: 40%; width: 20%; top: 40%; height: 20%"></img>
+      <video id="lho_video" style="transform: scale(1.0)" playsinline autoplay></video>
+      <select id="kibitz_video_select_2" style="position: absolute; left: 25%; width: 70%; top: 106%; height: 15%; opacity: 0; pointer-events: none">
+        <option value="-1" id="kib_vs2_no_commentary">No commentary</option>
+      </select>
+      <div id="kib_vol_mute_button_2" style="position: absolute; opacity: 0; pointer-events: none">
+        <image id="kib_vol_mute_image_2" style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%"></image>
+      </div>
+    </div>
+    <div id="rho_container">
+      <img id="rho_video_icon" style="background-color: #3b4a5c; position:absolute; left: 40%; width: 20%; top: 40%; height: 20%"></img>
+      <video id="rho_video" style="transform: scale(1.0)" playsinline autoplay></video>
+    </div>
+    <div id="partner_container">
+      <img id="partner_video_icon" style="position:absolute; left: 40%; width: 20%; top: 40%; height: 20%"></img>
+      <video id="partner_video" style="transform: scale(1.0)" playsinline autoplay></video>
+      <select id="kibitz_video_select_1" style="position: absolute; left: 25%; width: 70%; top: 106%; height: 15%; opacity: 0; pointer-events: none">
+        <option value="-1" id="kib_vs1_no_commentary">No commentary</option>
+        <option value="666" id="kib_vs1_broadcast">BROADCAST MY VIDEO</option>
+      </select>
+      <div id="stop_kib_broadcast_button" style="position: absolute; opacity: 0; pointer-events: none">Stop</div>
+      <div id="kib_vol_mute_button" style="position: absolute; opacity: 0; pointer-events: none">
+        <image id="kib_vol_mute_image" style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%"></image>
+      </div>
+    </div>
+    <div id="director_alert_symbol" style="opacity: 0; text-align: center">📕</div>
+    <div id="director_container" style="opacity: 0">
+      <img id="director_video_icon" style="position:absolute; left: 40%; width: 20%; top: 40%; height: 20%"></img>
+      <video id="director_video" style="transform: scale(1.0)" playsinline autoplay></video>
+    </div>
+
+    <div id="kibitzers_label" style="position: fixed; opacity: 0; pointer-events: none; font-family: Roboto, Arial, sans-serif"></div>
+    <textarea type="text" id="table_lurkers" readonly="true" style="position: fixed; resize: none; opacity: 0; pointer-events: none"></textarea>
+
+    <div id="board_info_container">
+      <div id="number_box" style="position: absolute"></div>
+      <div id="lho_vul_box" style="position: absolute"></div>
+      <div id="partner_vul_box" style="position: absolute"></div>
+      <div id="rho_vul_box" style="position: absolute"></div>
+      <div id="self_vul_box" style="position: absolute"></div>
+    </div>
+
+    <div id="lho_name_container"></div>
+    <div id="rho_name_container"></div>
+    <div id="partner_name_container"></div>
+    <div id="self_name_container"></div>
+    <div id="director_name_container" style="opacity: 0"></div>
+
+
+
+
+    <div style="position:fixed; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden; pointer-events: none">
+      <div id="claim_button" style="position: fixed">Claim</div>
+      <div id="undo_button" style="position: fixed">Undo</div>
+      <div id="auction_button" style="position: fixed">Auction</div>
+      <div id="last_trick_button" style="position: fixed">Last trick</div>
+      <div id="director_button" style="position: fixed">Director</div>
+      <div id="leave_table_button" style="position: fixed">Leave</div>
+      <div id="scorecard_button" style="position: fixed">Scores</div>
+      <image id="settings_button" style="position: fixed"></image>
+      <image id="alert_button" style="position: fixed"></image>
+      <image id="bb_alert_button" style="position: fixed"></image>
+      <image id="refresh_button" style="position: fixed"></image>
+      <image id="video_button" style="position: fixed"></image>
+      <image id="mic_button" style="position: fixed"></image>
+      <image id="toggle_button" style="position: fixed"></image>
+      <image id="video_in_button" style="position: fixed"></image>
+      <image id="lho_vol_button" style="position: fixed"></image>
+      <image id="lho_toggle_button" style="position: fixed"></image>
+      <image id="rho_vol_button" style="position: fixed"></image>
+      <image id="rho_toggle_button" style="position: fixed"></image>
+      <image id="partner_vol_button" style="position: fixed"></image>
+      <image id="partner_toggle_button" style="position: fixed"></image>
+      <image id="director_vol_button" style="position: fixed"></image>
+      <div id="messages_button" style="position: fixed">
+        <image id="messages_image" style="position: relative; left: 10%; width: 80%; top: 10%; height: 80%"></image>
+      </div>
+      <image id="lho_messages_button" style="position: fixed"></image>
+      <image id="rho_messages_button" style="position: fixed"></image>
+    </div>
+
+
+
+    <div id="chat_bar" style="position: fixed; font-family: Roboto, Arial, sans-serif">
+      <div id="chat_bar_messages" style="position: absolute"></div>
+      <input type="text" placeholder="Enter chat message here" autocomplete="off" autocorrect="off" autocomplete="off" spellcheck="off" readonly onfocus="this.removeAttribute('readonly');" id="table_msg" style="position: absolute"></input>
+      <div id="chat_bar_button" style="position: absolute">Send chat</div>
+      <div id="chat_hide_button" style="position: absolute">Hide chat</div>
+    </div>
+
+    <div id="lho_chat_bar" style="position: fixed; font-family: Roboto, Arial, sans-serif">
+      <div id="lho_chat_bar_messages" style="position: absolute"></div>
+      <input type="text" placeholder="Enter chat message here" autocomplete="off" autocorrect="off" autocomplete="off" spellcheck="off" readonly onfocus="this.removeAttribute('readonly');" id="lho_msg" style="position: absolute"></input>
+      <div id="lho_chat_bar_button" style="position: absolute">Send chat</div>
+      <div id="lho_chat_hide_button" style="position: absolute">Hide chat</div>
+    </div>
+    <div id="rho_chat_bar" style="position: fixed; font-family: Roboto, Arial, sans-serif">
+      <div id="rho_chat_bar_messages" style="position: absolute"></div>
+      <input type="text" placeholder="Enter chat message here" autocomplete="off" autocorrect="off" autocomplete="off" spellcheck="off" readonly onfocus="this.removeAttribute('readonly');" id="rho_msg" style="position: absolute"></input>
+      <div id="rho_chat_bar_button" style="position: absolute">Send chat</div>
+      <div id="rho_chat_hide_button" style="position: absolute">Hide chat</div>
+    </div>
+
+
+
+
+
+
+    <div id="hand_container"></div>
+
+    <div id="bb_container"></div>
+    <div id="bb_alert_box" style="font-family: Roboto, Arial, sans-serif; text-align: center; pointer-events: none">
+     <input type="text" placeholder="Explain bid here" autocomplete="off" id="alert_explain" maxlength="200"></input>
+      <div id="♠" style="position: absolute">♠</div>
+      <div id="♥" style="position: absolute">♥</div>
+      <div id="♦" style="position: absolute">♦</div>
+      <div id="♣" style="position: absolute">♣</div>
+      <div id="show_explain_list" style="position: absolute">
+        <image id="burger_icon" style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%"></image>
+      </div>
+      <select type="text" size="10" id="explanations" style="opacity: 0; pointer-events: none; resize: none"></select>
+    </div>
+    <div id="add_exp_box" style="font-family: Roboto, Arial, sans-serif; text-align: center; pointer-events: none">
+      <input type="text" placeholder="Add explanation" autocomplete="off" id="add_explain" maxlength="200" style="position:absolute; left: 3%; top: 3%" ></input>
+      <div id="add♠" style="position: absolute">♠</div>
+      <div id="add♥" style="position: absolute">♥</div>
+      <div id="add♦" style="position: absolute">♦</div>
+      <div id="add♣" style="position: absolute">♣</div>
+      <div id="add_exp" style="position: absolute">Add</div>
+      <div id="cancel_exp" style="position: absolute">Cancel</div>
+      <div id="add_show_explain_list" style="position: absolute">
+        <image id="add_burger_icon" style="position: absolute; left: 10%; top: 10%; width: 80%; height: 80%"></image>
+      </div>
+      <select type="text" size="10" id="add_explanations" style="opacity: 0; pointer-events: none; resize: none"></select>
+    </div>
+
+    <div id="result_box" style="text-align: center; font-size: 20pt; border-radius: 15px;
+                                opacity: 0; pointer-events: none; position: fixed; font-family: Roboto, Arial, sans-serif;
+                                left: -10000px">
+      <span style="display: inline-block" id="result_text"></span>
+      <div id="ok_button" style="position: absolute">OK</div>
+      <div id="play_round_button" style="position: absolute">Play round</div>
+    </div>
+
+
+    <div id="lobby_div" style="overflow-y: scroll; position: fixed; background-color: black; left: 0pt; top: 0pt; width: 100000px; height: 100000px;
+                                font-family: Roboto, Arial, sans-serif; font-size: 20px">
+    </div>
+
+    <div id="chat_container" style="opacity: 0; position: fixed; left: -10000px">
+      <div id="messages" style="position: absolute; font-family: Roboto, Arial, sans-serif"></div>
+      <input type="text" placeholder="Enter chat message here" autocorrect="off" autocomplete="off" spellcheck="off" readonly onfocus="this.removeAttribute('readonly');" id="msg" style="position: absolute; font-size: 100px"></input>
+      <textarea type="text" id="lurkers" readonly="true" style="position: absolute; resize: none"></textarea>
+    </div>
+
+    <div id="login_dialog" style="overflow: hidden; text-align: center; position: absolute; left: -10000px; font-family: Roboto, Arial, sans-serif; padding-bottom: 30px">
+
+      <img id="realbridgelogo" style="position: absolute; left: 3%; top: 14%; width: 16%"></img>
+      <div id="otherlogobg" style="position: absolute; left: 3%; top: 40%; width: 16%; height: 10%; background-color: #ffffaa; opacity: 0"></div>
+      <img id="otherlogo" style="position: absolute; left: -2%; top: 32%; width: 26%; opacity: 0"></img>
+
+      <select id="language_select" style="position: absolute; left: 3%; top: 5%; width: 16%; height: 5%">
+        <option value="11">🇦🇩 Català</option>
+        <option value="7">🇩🇰 Dansk</option>
+        <option value="3">🇩🇪 🇦🇹 Deutsch</option>󠁰
+        <option value="5">🇬🇷 Ελληνικά</option>
+        <option value="0" selected="selected">🇬🇧 🇺🇸 English</option>
+        <option value="8">🇪🇸 Español</option>
+        <option value="1">🇫🇷 Français</option>
+        <option value="2">🇮🇹 Italiano</option>
+        <option value="13">🇳🇱 Nederlands</option>
+        <option value="9">🇳🇴 Norsk bokmål</option>
+        <option value="10">🇳🇴 Norsk nynorsk</option>
+        <option value="4">🇵🇹 Português</option>
+        <option value="6">🇸🇪 Svenska</option>
+        <option value="12">🇹🇷 Türkçe</option>
+      </select>
+
+      <h3><b id="login_title">RealBridge</b></h3>
+      <label style="display: inline-block; text-align: left; position: relative; width: 17%; left:-3%" for="username" id="locale_full_name">Full Name</label>
+      <input autocomplete="off" style="position: relative; width: 30%; height: 24pt; font-size: 20pt" type="text" id="username" name="username"></input>
+      <p></p>
+      <label id="id_label" style="display: inline-block; text-align: left; position: relative; width: 17%; left:-3%" for="id_number">ID number</label>
+      <input autocomplete="off" style="position: relative; width: 30%; height: 24pt; font-size: 20pt" type="text" id="id_number" name="id_number"></input>
+      <p></p>
+      <label id="pw_label" style="display: inline-block; text-align: left; position: relative; width: 17%; left:-3%" for="password">Session key</label>
+      <input autocomplete="off" style="position: relative; width: 30%; height: 24pt; font-size: 20pt" type="text" id="password" name="password"></input>
+      <p></p>
+      <input type="checkbox" id="high_contrast" name="high_contrast" value="high_contrast" style="position: relative; left: 4.5%"></input>
+      <label for="high_contrast" style="position: relative; left: 4.5%" id="locale_high_contrast">High contrast UI</label>
+      <p></p>
+
+      <div id="login_button" style="margin: auto; text-align: center; vertical-align: middle; position: relative; left: 4.5%">Login</div>
+      <div id="tcpp" style="display: inline-block; text-align:center; position: relative; font-size: 14px"><br>By logging in to RealBridge you agree to our<br><a target='_blank' href='https://realbridge.online/terms-and-conditions.html'>Terms and Conditions</a> and<br><a target='_blank' href='https://realbridge.online/privacy-and-cookies-policy.html'>Privacy and Cookies Policy</a></div>
+      <br><br>
+
+      <label id="camera_label" style="display:inline-block; text-align: left; position: relative; width: 18%; left:-1.5%" for="video_input">Camera</label>
+      <select id="video_input" name="video_input" style="position: relative; width: 32%; height: 24pt; font-size: 10pt">
+        <option value="0" id="locale_use_default">Use default</option>
+      </select>
+      <p></p>
+      <label id="mic_label" style="display:inline-block; text-align: left; position: relative; width: 18%; left:-1.5%" for="audio_input">Microphone</label>
+      <select id="audio_input" name="audio_input" style="position: relative; width: 32%; height: 24pt; font-size: 10pt">
+        <option value="0" id="locale_aud_use_default">Use default</option>
+      </select>
+      <p></p>
+      <label id="audio_vol_label" style="display:inline-block; text-align: left; position: relative; top: -5px; width: 18%; left:-1.5%" for="audio_vol">Mic volume</label>
+      <meter id="audio_vol" min="0" max="100" value="0" style="position: relative; width: 32%; height: 24pt; font-size: 10pt"></meter>
+
+      <div id="self_container">
+        <img id="self_video_icon" style="position:absolute; left: 40%; width: 20%; top: 40%; height: 20%"></img>
+        <video id="self_video" playsinline autoplay muted style="transform: scaleX(-1.0)"></video>
+      </div>
+
+      <div id="version_number" style="position: absolute; bottom: 12px; left: 12px; font-size: 12px">version 1.0.6</div>
+
+    </div>
+
+    <div id="claim_dialog" style="text-align: center; font-size: 20pt; border-radius: 15pt;
+                                  opacity: 0; position: fixed; pointer-events: none;
+                                  font-family: Roboto, Arial, sans-serif;
+                                  left: -10000px">
+      <div id="0_button" style="position: absolute">0</div>
+      <div id="1_button" style="position: absolute">1</div>
+      <div id="2_button" style="position: absolute">2</div>
+      <div id="3_button" style="position: absolute">3</div>
+      <div id="4_button" style="position: absolute">4</div>
+      <div id="5_button" style="position: absolute">5</div>
+      <div id="6_button" style="position: absolute">6</div>
+      <div id="7_button" style="position: absolute">7</div>
+      <div id="8_button" style="position: absolute">8</div>
+      <div id="9_button" style="position: absolute">9</div>
+      <div id="10_button" style="position: absolute">10</div>
+      <div id="11_button" style="position: absolute">11</div>
+      <div id="12_button" style="position: absolute">12</div>
+      <div id="13_button" style="position: absolute">13</div>
+      <div id="cancel_claim" style="position: absolute"><b>Cancel</b></div>
+    </div>
+
+    <div id="results_fade" style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px;
+                                    background-color: black; opacity: 0.0; pointer-events: none"></div>
+    <div id="results_dialog" style="opacity: 0; position: fixed; font-family: Roboto, Arial, sans-serif; pointer-events: none">
+      <div id="close_results_button" style="position: absolute"><img id="close_res_but_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+      <div id="results_dialog_inner"></div>
+    </div>
+
+    <div id="question_dialog" style="text-align: center; vertical-align: middle; font-size: 20pt; border-radius: 15pt;
+                                      position: fixed; font-family: Roboto, Arial, sans-serif; left: -10000px">
+      <div style="display: inline-block; position: relative; right: 30%; top: 28%; vertical-align: middle" id="question_text"></div>
+      <div style="display: inline-block; position: relative; top: 28%; vertical-align: middle" id="info_text"></div>
+      <div id="yes_button" style="position: absolute; width: 60px; height: 40px; font-size: 20pt;
+                                    border-radius: 5px">Accept</div>
+      <div id="no_button" style="position: absolute; width: 60px; height: 40px; font-size: 20pt;
+                                    border-radius: 5px">Refuse</div>
+    </div>
+
+
+    <div id="bb_explanation" style="pointer-events: none; font-family: Roboto, Arial, sans-serif; text-align: center; vertical-align: middle; z-index: 900000"></div>
+    <div id="settings_fade" style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px;
+                                    background-color: black; opacity: 0.0; pointer-events: none; z-index: 1000000"></div>
+
+    <div id="adv_settings_dialog" style="position: fixed; left: -10000px; top: -10000px; width: 0px; height: 0px;
+                                    font-family: Roboto, Arial, sans-serif; pointer-events: none; z-index: 1000100">
+
+      <br>
+      <span id="adv_settings_title" style="text-align: center; display: block">Advanced director actions</span>
+
+      <div id="adv_settings_main">
+        <h3 id="club_parameters_title" style="position: absolute; top: 10%">Club and session parameters</h3>
+        <span id="ebu_charge_code_text" style="position: absolute; top: 20%">EBU info</span>
+        <select name="ebu_charge_code" id="ebu_charge_code" style="position: absolute; top: 20%; left: 27%">
+          <option value="0">Charge code</option>
+          <option value="2">02 Null session</option>
+          <option value="3">03 Free session</option>
+          <option value="4">04 Novice session</option>
+          <option value="6">06 Children in Need</option>
+          <option value="7">07 Non-EBU EBU Simul</option>
+          <option value="8">08 Already paid UMS</option>
+          <option value="10">10 Normal club session</option>
+          <option value="11">11 Supervised session</option>
+          <option value="12">12 Mentor session</option>
+          <option value="20">20 County event</option>
+          <option value="21">21 League or knockout</option>
+          <option value="22">22 Novice session</option>
+          <option value="30">30 Licensed event</option>
+          <option value="40">40 Licensed charity</option>
+          <option value="50">50 Affiliated blue pt</option>
+          <option value="60">60 County green-point</option>
+          <option value="70">70 Commercial (Eng)</option>
+          <option value="71">71 Commercial (ex-Eng)</option>
+          <option value="90">90 EBU only</option>
+          <option value="91">91 EBU only</option>
+          <option value="99">99 EBU only</option>
+        </select>
+        <select name="ebu_masterpoint_scale" id="ebu_masterpoint_scale" style="position: absolute; top: 20%; left: 70%">
+          <option value="0">No MPs</option>
+          <option value="1">Club scale</option>
+        </select>
+        <span id="club_name_text" style="position: absolute; top: 25%">Club name</span>
+        <input autocomplete="off" style="position: absolute; top: 25%; left: 27%; width: 29%" type="text" id="club_name" name="club_name" value="Test Bridge Club"/>
+        <span id="club_id_number_text" style="position: absolute; top: 25%; left: 62%">ID #</span>
+        <input autocomplete="off" style="position: absolute; top: 25%; left: 70%; width: 14%" type="text" id="club_id_number" name="club_id_number" value="999"/>
+        <div id="figb_button" style="position: absolute">FIGB</div>
+
+        <h3 id="adv_config_title" style="position: absolute; top: 30%">Advanced session config</h3>
+        <label style="position: absolute; top: 38%" for="config_file" id="locale_load_config">Load config file:&nbsp;&nbsp;</label>
+        <input style="position: absolute; top: 38%; left: 45%" type="file" id="config_file" name="config_file" accept=".json"></input>
+        <div style="position: absolute; top: 44%; white-space:nowrap; overflow: hidden; color: yellow" id="config_text"></div>
+
+        <div id="export_config" style="position: absolute; top: 50%">Export config</div>
+        <div id="export_config_link" style="position: absolute; top: 51%; left: 48%">(download link appears in chat)</div>
+
+        <h3 id="remove_player_title" style="position: absolute; top: 55%">Remove player</h3>
+        <select name="player_select" id="player_select" style="position:absolute; top: 63%; width: 43%">
+          <option value="" id="locale_select_player_kick">Select player to kick to lobby</option>
+        </select>
+        <div id="kick_button" style="position: absolute">Kick player to lobby</div>
+        <select name="player_select_nuke" id="player_select_nuke" style="position:absolute; top: 69%; width: 43%">
+          <option value="" id="locale_select_player_nuke">Select player to kick out</option>
+        </select>
+        <div id="kick_button_nuke" style="position: absolute">Kick player out</div>
+
+        <div style="border: 1px solid #444444; position: absolute; top: 74%; left: 3%; width: 94%; height: 0%"></div>
+        <div id="warning" style="text-align: center; position:absolute; left: 3%; width: 94%"><h4><b>WARNING - DANGER</b><br><b>Reboot and Destroy:<br>these buttons require two clicks</b></h4></div>
+
+        <div id="reboot_button" style="position: absolute">Reboot session</div>
+        <div id="nuke_button" style="position: absolute">Destroy session</div>
+      </div>
+
+      <div id="adv_settings_main2" style="opacity: 0; pointer-events: none">
+        <h3 id="edit_player_title" style="position: absolute; top: 10%">Edit player</h3>
+        <select name="edit_player_select" id="edit_player_select" style="position: absolute; top: 20%; left: 30%; width: 38%">
+          <option value="" id="locale_select_edit_player">Select player to edit</option>
+        </select>
+        <span id="edit_name_text" style="position: absolute; top: 25%">Name</span>
+        <input autocomplete="off" style="position: absolute; top: 25%; width: 38%; left: 30%" type="text" id="edit_player_name" name="edit_player_name" value=""/>
+        <span id="edit_id_text" style="position: absolute; top: 30%">ID number</span>
+        <input autocomplete="off" style="position: absolute; top: 30%; left: 30%; width: 38%" type="text" id="edit_player_id" name="edit_player_id" value=""/>
+        <div id="do_player_edit_button" style="position: absolute">Make edit</div>
+
+        <div id="destroy_pair_div">
+          <h3 id="destroy_pair_title" style="position: absolute; top: 40%">Destroy pair (convert to sit-out & remove all results)</h3>
+          <select name="destroy_pair_select" id="destroy_pair_select" style="position: absolute; top: 50%; width: 65%">
+            <option value="-1" id="locale_select_destroy_pair">Select pair to destroy</option>
+          </select>
+          <div id="do_destroy_pair_button" style="position: absolute">Destroy</div>
+        </div>
+
+        <h3 id="broadcast_video_title" style="position: absolute; top: 60%">Broadcast video announcement</h3>
+        <div id="broadcast_button" style="position: absolute">All</div>
+        <div id="broadcast_lobby_button" style="position: absolute">Lobby</div>
+
+      </div>
+
+      <div id="adv_settings_close" style="position: absolute"><img id="close_adv_set_ic" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+      <div id="adv_settings_flip" style="position: absolute"><img id="adv_set_flip" style="position: absolute; left: 10%; width: 80%; top: 10%; height: 80%"></img></div>
+    </div>
+
+    <div id="tournament_settings_dialog" style="position: fixed; left: -10000px; top: -10000px; width: 0px; height: 0px;
+                                      font-family: Roboto, Arial, sans-serif; pointer-events: none; z-index: 1000100">
+      <p></p>
+      <span id="tournament_settings_title" style="text-align: center; display: block">Session settings</span>
+      <p></p>
+      <div id="tournament_settings_main">
+
+        <select name="scoring_method" id="scoring_method">
+          <option value="0" id="locale_practice_tables">Practice tables</option>
+          <option value="1" id="locale_teams">Teams</option>
+          <option value="2" id="locale_mp_pairs">Matchpoint pairs</option>
+          <option value="3" id="locale_imp_pairs">IMP pairs</option>
+          <option value="4" id="locale_bam_teams">BAM Teams</option>
+        </select>
+        <label style="display: inline-block" for="scoring_method" id="locale_scoring_method">Scoring method</label>
+        <br>
+
+        <select name="movement_type" id="movement_type">
+          <option value="0" id="locale_mitchell">Mitchell (2 winners)</option>
+          <option value="1" id="locale_sw_mitchell">Switched Mitchell (1)</option>
+          <option value="2" id="locale_howell">Howell (1 winner)</option>
+          <option value="3" disabled="true" id="locale_swiss">Swiss</option>
+          <option value="4" disabled="true" id="locale_hth">Head-to-head matches</option>
+          <option value="5" disabled="true" id="locale_rr">Round robin</option>
+          <option value="6" disabled="true" id="locale_rr_halftime">Round robin (2x½)</option>
+        </select>
+        <label style="display: inline-block" for="movement_type" id="locale_movement">Movement</label>
+        <br>
+
+        <select style="display: inline-block" name="vp_scale" id="vp_scale" disabled="true">
+          <option value="0" id="locale_vp_none">None</option>
+          <option value="1">20-0 dis</option>
+          <option value="2">20.0 con</option>
+        </select>
+        <label style="display: inline-block" for="vp_scale" id="locale_vp_scale">VP scale</label>
+        <br>
+
+        <input autocomplete="off" style="display: inline-block; width: 15%" type="number" id="boards_per_round" name="boards_per_round" min="1" max="32"></input>
+        <label style="display: inline-block" for="boards_per_round" id="locale_boards_per_round">Boards per round</label>
+        <br>
+        <input autocomplete="off" style="display: inline-block; width: 15%" type="number" id="num_rounds" name="num_rounds" min="1" max="32"></input>
+        <label style="display: inline-block" for="num_rounds" id="locale_num_rounds">Number of rounds</label>
+        <br>
+        <input autocomplete="off" style="display: inline-block; width: 15%" type="text" id="time_per_round" name="time_per_round"></input>
+        <label style="display: inline-block" for="time_per_round" id="locale_time_per_round">Time / round (eg 15m, 14:30)</label>&emsp;
+        <select name="time_display" id="time_display">
+          <option value="0" id="locale_min_only">Show min only</option>
+          <option value="1" id="locale_mmss">Show mm:ss</option>
+        </select>
+        <br>
+        <input autocomplete="off" style="display: inline-block; width: 15%" type="number" id="first_board" name="first_board" min="1"></input>
+        <label style="display: inline-block" for="first_board" id="locale_first_board">First board</label>
+        <br>
+        <div style="display: block; width: 90%; height: 10px"></div>
+        <div style="border: 1px solid #444444; width: 90%; height: 0%"></div>
+        <div style="display: block; width: 90%; height: 10px"></div>
+        <input type="checkbox" id="self_alert"></input>
+        <label for="self_alert" id="locale_self_alert">Self-alerts and written explanations</label>
+        <br>
+        <input type="checkbox" id="use_screens"></input>
+        <label for="use_screens" id="locale_use_screens">Screens - video calls with one opponent only</label>
+        <br>
+        <div style="display: inline-block" id="locale_trick_one_delays">Trick 1 delays (lead/dummy/3rd)&nbsp;&nbsp;</div>
+        <input autocomplete="off" style="display: inline-block; width: 7%" type="number" id="opening_lead_delay" min="0" max="30"></input>
+        <div style="display: inline-block">/</div>
+        <input autocomplete="off" style="display: inline-block; width: 7%" type="number" id="opening_dummy_delay" min="0" max="30"></input>
+        <div style="display: inline-block">/</div>
+        <input autocomplete="off" style="display: inline-block; width: 7%" type="number" id="opening_third_delay" min="0" max="30"></input>
+        <br>
+        <div style="display: inline-block" id="locale_auction_delays">Auction delays (dealer/next 3/subsequent)&nbsp;&nbsp;</div>
+        <input autocomplete="off" style="display: inline-block; width: 7%" type="number" id="dealer_delay" min="2" max="30"></input>
+        <div style="display: inline-block">/</div>
+        <input autocomplete="off" style="display: inline-block; width: 7%" type="number" id="first_round_delay" min="0" max="30"></input>
+        <div style="display: inline-block">/</div>
+        <input autocomplete="off" style="display: inline-block; width: 7%" type="number" id="other_bid_delay" min="0" max="30"></input>
+        <br>
+        <div style="display: block; width: 90%; height: 10px"></div>
+        <div style="border: 1px solid #444444; width: 90%; height: 0%"></div>
+        <div style="display: block; width: 90%; height: 10px"></div>
+        <label for="pbn_file" id="locale_load_pbn">Load PBN file:&nbsp;&nbsp;</label>
+        <input type="file" id="pbn_file" name="pbn_file" accept=".pbn"></input>
+        <br>
+        <div id="pbn_text" style="color: yellow"></div>
+      </div>
+      <p></p>
+      <div id="tournament_settings_ok" style="position: absolute">OK</div>
+      <div id="tournament_settings_cancel" style="position: absolute">Cancel</div>
+    </div>
+
+<div id="settings_dialog" style="position: fixed; left: -10000px; top: -10000px; width: 0px; height: 0px;
+                                      font-family: Roboto, Arial, sans-serif; pointer-events: none; z-index: 1000100">
+      <br>
+      <span id="settings_title" style="text-align: center; display: block">Settings</span>
+      <div id="settings_main">
+        <b><span id="locale_display_style">Display style</span></b><br/>
+        <input type="radio" id="real_cards" name="display_style" value="real_cards"/>
+        <label for="real_cards"><span id="locale_detailed_cards">Detailed cards</span></label><br/>
+        <input type="radio" id="computer_cards" name="display_style" value="computer_cards"/>
+        <label for="computer_cards" id="locale_simplified_cards">Simplified cards</label><br/>
+        <br>
+
+        <span id="dummy_orientation_label"><b><span id="locale_as_defender">As defender, see dummy</span></b><br/></span>
+        <input type="radio" id="faces_declarer" name="dummy_orientation" value="faces_declarer"/>
+        <label id="faces_declarer_label" for="faces_declarer"><span id="locale_facing_declarer">Facing declarer</span></label><br>
+        <input type="radio" id="faces_me" name="dummy_orientation" value="faces_me"/>
+        <label id="faces_me_label" for="faces_me"><span id="locale_facing_me">Facing me</span></label><br/>
+        <br/>
+
+        <span id="partner_dummy_label"><b><span id="locale_as_declarer">As declarer, see dummy as</span></b><br/></span>
+        <input type="radio" id="pd_vert" name="partner_dummy" value="pd_vert"/>
+        <label id="pd_vert_label" for="pd_vert">Vertical suits (facing declarer)</label><br/>
+        <input type="radio" id="pd_horiz" name="partner_dummy" value="pd_horiz"/>
+        <label id="pd_horiz_label" for="pd_horiz">Horizontal hand</label><br/>
+        <br/>
+		
+		<div style="float: left; width: 50%">
+			<b><span id="locale_input_style">Input style</span></b><br/>
+			<input type="radio" id="single_tap" name="input_style" value="single_tap"/>
+			<label for="single_tap" id="locale_one_click">One click or tap</label><br/>
+			<input type="radio" id="double_tap" name="input_style" value="double_tap"/>
+			<label for="double_tap" id="locale_two_taps">Two taps (tablet)</label><br/>
+			<input type="radio" id="double_click" name="input_style" value="double_click"/>
+			<label for="double_click" id="locale_double_click">Double click (mouse)</label><br/>
+			<br/>
+
+			<b><span id="locale_alerted_calls">Alerted calls</span></b><br/>
+			<input type="checkbox" id="yellow_box" name="yellow_box"/>
+			<label for="yellow_box" id="yellow_box_label">Yellow border around alerted calls</label>
+			<br/>
+			<br/>
+
+			<b><span id="locale_deal_animation">Deal animation</span></b><br/>
+			<select id="deal_animation">
+			  <option value="0" id="locale_fade_in">Fade-in</option>
+			  <option value="1" id="locale_waterfall">Waterfall</option>
+			  <option value="2" id="locale_slide">Slide</option>
+			  <option value="3" id="locale_none">None</option>
+			</select><br/>
+			<br/>
+
+			<b><span id="locale_animation_duration">Animation duration</span></b>
+			<input style="display: inline-block" type="range" id="animation_slider" name="animation_slider" min="0" max="1000"/>
+		</div>
+
+		<div id="director_options" style="float: left; width: 40%; border-style: solid; border-width: 1px; padding: 3px">
+			<b><span id="locale_director_settings" style="text-align: center; display: block">Director settings</span></b><br/>
+
+			<b><span id="locale_director_undo_options">Undo notifications</span></b><br/>
+			<input type="radio" id="no_director_undo_notification" name="director_undo_notification" value="no_director_undo_notification"/>
+			<label for="no_director_undo_notification" id="locale_no_director_undo_notification">None</label><br/>
+			<input type="radio" id="director_undo_msg" name="director_undo_notification" value="director_undo_msg"/>
+			<label for="director_undo_msg" id="locale_director_undo_msg">Message</label><br/>
+			<input type="radio" id="director_undo_msg_and_bell" name="director_undo_notification" value="director_undo_msg_and_bell"/>
+			<label for="director_undo_msg_and_bell" id="locale_director_undo_msg_and_bell">Message & bell</label><br/>
+			<br/>
+		
+			<b><span id="locale_bell_volume">Bell volume</span></b><br/>
+			<input style="display: inline-block" type="range" id="bell_volume_slider" name="bell_volume_slider" min="0" max="100"/>
+			<br/>
+		</div>
+      </div>
+
+      <p></p>
+      <div id="settings_ok" style="position: absolute">OK</div>
+      <div id="settings_cancel" style="position: absolute">Cancel</div>
+      <div id="settings_explanations" style="position: absolute">Explanations</div>
+      <div id="edit_explanations" style="position: absolute; top: 0%; left: 0%; width: 100%; height: 100%; opacity: 0; background-color: gray; pointer-events: none">
+        <table id="edit_exp_table" style="position: absolute; top: 3%; width: 100%; border-collapse: collapse">
+        </table>
+        <div id="edit_exp_close" style="position:absolute">Close</div>
+      </div>
+    </div>
+
+    <div id="broadcast_box" style="opacity: 0; position: absolute; z-index: 3000000; pointer-events: none">
+      <div id="broadcast_box_bg" style="background-color: #192027; position: absolute; left: 0%; width: 100%; top: 0%; height: 100%"></div>
+      <video id="broadcast_video" playsinline autoplay style="position: absolute; left: 5%; width: 90%; top: 5%; height: 90%"></video>
+    </div>
+
+    <div id="director_broadcast_box" style="opacity: 0; position: absolute; z-index: 3000000; pointer-events: none">
+      <div id="director_broadcast_box_bg" style="background-color: #192027; position: absolute; left: 0%; width: 100%; top: 0%; height: 100%"></div>
+      <div id="director_broadcast_text" style="font-family: Roboto, Arial, sans-serif; color: white; position: absolute; top: 10%; width: 100%; text-align: center"></div>
+      <div id="stop_broadcast_button" style="position: fixed">Stop</div>
+    </div>
+
+    <script>
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
+      {
+        window.alert("RealBridge is not supported on this browser (it does not support video calls).\niPad / iPhone: please use Safari.\nPC: please use Chrome, Firefox or Edge (NOT Internet Explorer)");
+        window.stop();
+      }
+    </script>
+
+    <script type="text/javascript" src="web-animations.min.js"></script>
+    <script type="text/javascript" src="cz15.js"></script>
+
+  </body>
+
+</html>
