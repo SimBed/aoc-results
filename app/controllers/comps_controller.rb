@@ -1,4 +1,3 @@
-require 'byebug'
 class CompsController < ApplicationController
   before_action :set_comp, only: %i[ show edit update destroy ]
 
