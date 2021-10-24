@@ -1,4 +1,5 @@
 require 'nokogiri'
+
 #
 class Scrape
   attr_accessor :parse_page, :results, :pairs, :players, :date
@@ -6,8 +7,9 @@ class Scrape
   def initialize(file, date)
     # first copy from Chrome inspector to a text file
     # 'Tues31Aug.txt', '2021-10-07'
-    html = File.open(file)
-    @parse_page ||= Nokogiri::HTML(html)
+    # html = File.open(file)
+    # @parse_page ||= Nokogiri::HTML(html)
+    @parse_page ||= Nokogiri::HTML(file)
     @results = []
     @pairs = []
     @players = []

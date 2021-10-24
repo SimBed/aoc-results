@@ -16,6 +16,11 @@
     <%= form.date_select :date %>
   </div>
 
+  <div class="field">
+    <%= form.label :result, "Result" %>
+    <%= form.text_area :result, class: "full_width" %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

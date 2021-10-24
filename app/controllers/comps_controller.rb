@@ -1,3 +1,4 @@
+require 'byebug'
 class CompsController < ApplicationController
   before_action :set_comp, only: %i[ show edit update destroy ]
 
@@ -21,12 +22,16 @@ class CompsController < ApplicationController
 
   # POST /comps or /comps.json
   def create
-    @comp = Comp.new(comp_params)
+    comp_date = Date.new(comp_params["date(1i)"].to_i,
+                    comp_params["date(2i)"].to_i,
+                    comp_params["date(3i)"].to_i)
+    Scrape.new(comp_params[:result],comp_date)
+    #@comp = Comp.new(comp_params)
 
     respond_to do |format|
-      if @comp.save
+      if true #@comp.save
         format.html { redirect_to comps_path, notice: "Comp was successfully created." }
-        format.json { render :show, status: :created, location: @comp }
+        #format.json { render :show, status: :created, location: @comp }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @comp.errors, status: :unprocessable_entity }
@@ -64,6 +69,6 @@ class CompsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comp_params
-      params.require(:comp).permit(:date, :pair_count)
+      params.require(:comp).permit(:date, :result)
     end
 end
