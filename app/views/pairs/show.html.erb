@@ -1,11 +1,11 @@
 <p>
   <strong>Pair1:</strong>
-  <%= @pair.player1_id %>
+  <%= @pair.name.split(' & ')[0] %>
 </p>
 
 <p>
   <strong>Pair2:</strong>
-  <%= @pair.player2_id %>
+  <%= @pair.name.split(' & ')[1] %>
 </p>
 
 <%= link_to 'Edit', edit_pair_path(@pair) %> |

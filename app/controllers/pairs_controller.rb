@@ -35,7 +35,7 @@ class PairsController < ApplicationController
 
   # GET /pairs/1/edit
   def edit
-    @players =  Player.order_by_created.map { |p| [p.full_name, p.id] }
+    @players =  Player.order_by_first_name.map { |p| [p.full_name, p.id] }
   end
 
   # POST /pairs or /pairs.json

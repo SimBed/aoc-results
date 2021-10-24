@@ -1,7 +1,10 @@
 <p>
   <strong>Date:</strong>
   <%= @comp.formatted_date %>
-  <%= @comp.pair_count %>
+</p>
+<p>
+  <strong>Pairs:</strong>
+  <%= @comp.pairs.count %>
 </p>
 
 <%= link_to 'Edit', edit_comp_path(@comp) %> |

@@ -73,8 +73,8 @@ class Scrape
     end
 
     def results_array
-      # - allows for the double-barrelled
-      regexs = /([A-Z][a-zA-Z \- \&]+)(\d+.\d+)/
+      # - allows for the double-barrelled and apostropheed
+      regexs = /([A-Z][a-zA-Z \- \' \&]+)(\d+.\d+)/
       results_table_strings.each do |string|
         result = string.scan(regexs)
         # e.g. result = [["Ann Hart & Marlene Rodin", "51.42"]], an array containing all (1) match with 2 capture groups
