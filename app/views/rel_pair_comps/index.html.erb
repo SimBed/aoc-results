@@ -1,4 +1,4 @@
-<%= link_to 'New Result', new_rel_pair_comp_path %>
+<%#= link_to 'New Result', new_rel_pair_comp_path %>
 <br><br>
 
 <h5>Results (<%=@rel_pair_comps.count%>)</h5>
@@ -21,9 +21,9 @@
         <td><%= Comp.find(rel_pair_comp.comp_id).formatted_date %></td>
         <td><%= rel_pair_comp.score %></td>
         <td><%= rel_pair_comp.pos %></td>
-        <td><%= link_to 'Show', rel_pair_comp %></td>
-        <td><%= link_to 'Edit', edit_rel_pair_comp_path(rel_pair_comp) %></td>
-        <td><%= link_to 'Destroy', rel_pair_comp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <!--td><%#= link_to 'Show', rel_pair_comp %></td>
+        <td><%#= link_to 'Edit', edit_rel_pair_comp_path(rel_pair_comp) %></td>
+        <td><%#= link_to 'Destroy', rel_pair_comp, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
       </tr>
     <% end %>
   </tbody>

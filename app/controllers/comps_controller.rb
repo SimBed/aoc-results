@@ -8,6 +8,7 @@ class CompsController < ApplicationController
 
   # GET /comps/1 or /comps/1.json
   def show
+    @rel_pair_comps = @comp.rel_pair_comps.order_by_date_score
   end
 
   # GET /comps/new

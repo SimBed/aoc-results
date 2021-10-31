@@ -2,10 +2,17 @@
   <strong>Date:</strong>
   <%= @comp.formatted_date %>
 </p>
-<p>
-  <strong>Pairs:</strong>
-  <%= @comp.pairs.count %>
-</p>
 
-<%= link_to 'Edit', edit_comp_path(@comp) %> |
+<table>
+  <tbody>
+    <% @rel_pair_comps.each do |rel| %>
+      <tr>
+        <td><%= rel.pos %></td>
+        <td><%= rel.pair.name %></td>
+        <td><%= rel.score %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Back', comps_path %>

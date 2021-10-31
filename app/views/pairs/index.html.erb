@@ -1,4 +1,4 @@
-<%= link_to 'New Pair', new_pair_path %>
+<%#= link_to 'New Pair', new_pair_path %>
 <br><br>
 
 <h5>Pairs (<%=@pairs.count%>)</h5>
@@ -22,8 +22,8 @@
         <td><%= pair.average_position %></td>
         <td><%= pair.played %></td>
         <td><%= link_to 'Show', pair %></td>
-        <td><%= link_to 'Edit', edit_pair_path(pair) %></td>
-        <td><%= link_to 'Destroy', pair, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <!--td><%#= link_to 'Edit', edit_pair_path(pair) %></td>
+        <td><%#= link_to 'Destroy', pair, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
       </tr>
     <% end %>
   </tbody>
