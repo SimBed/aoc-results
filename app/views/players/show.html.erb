@@ -1,20 +1,104 @@
-<p>
-  <%= @player.full_name %>
-</p>
+<h3> <%= @player.full_name %> </h3>
+<table>
+  <tbody>
+    <tr>
+      <td>comps</td>
+      <td> <%= @player.comps.count %></td>
+    </tr>
+    <tr>
+      <td>partners</td>
+      <td> <%= @player.pairs.count %></td>
+    </tr>
+    <tr>
+      <td>first played</td>
+      <td> <%= @player.first_played %></td>
+    </tr>
+    <tr>
+      <td>last played</td>
+      <td> <%= @player.last_played %></td>
+    </tr>
+      <tr>
+        <td>max score</td>
+        <td> <%=@player.max_score(@player.rel_pair_comps) %></td>
+      </tr>
+      <tr>
+        <td>av score</td>
+        <td> <%= @player.average_score %></td>
+      </tr>
+      <tr>
+        <td>min score</td>
+      <td> <%=@player.max_score(@player.rel_pair_comps, max=false) %></td>
+      </tr>
+      <tr>
+        <td>highest pos (of 20)</td>
+        <td> <%=@player.max_pos(@player.rel_pair_comps) %></td>
+      </tr>
+      <tr>
+        <td>av pos (of 20)</td>
+        <td> <%= @player.average_position %></td>
+      </tr>
+      <tr>
+        <td>lowest pos (of 20)</td>
+      <td> <%=@player.max_pos(@player.rel_pair_comps, max=false) %></td>
+      </tr>
 
+  </tbody>
+</table>
 <% @player.pairs.each do |pair| %>
-<%= pair.name %>
-  <% pair.rel_pair_comps.each do |rel| %>
+  <% partner = @player.partner_name(pair) %>
+<h4 class="mt-4"><small>partner</small> <%=  link_to partner, find_player(partner) %> </h4>
+
+<table>
+  <tbody>
+      <tr>
+        <td>max score</td>
+        <td> <%=@player.max_score(pair.rel_pair_comps) %> </td>
+      </tr>
+      <tr>
+        <td>av score</td>
+        <td> <%= @player.a_s(pair.rel_pair_comps) %></td>
+      </tr>
+      <tr>
+        <td>min score</td>
+      <td> <%=@player.max_score(pair.rel_pair_comps, max=false) %> </td>
+      </tr>
+      <tr>
+        <td>highest pos (of 20)</td>
+        <td> <%=@player.max_pos(pair.rel_pair_comps) %></td>
+      </tr>
+      <tr>
+        <td>av pos (of 20)</td>
+        <td> <%= @player.a_p(pair.rel_pair_comps) %></td>
+      </tr>
+      <tr>
+        <td>lowest pos (of 20)</td>
+      <td> <%=@player.max_pos(pair.rel_pair_comps, false) %></td>
+      </tr>
+
+  </tbody>
+</table>
+
     <table>
+      <thead>
+        <tr>
+          <th>Comp</th>
+          <th>Score</th>
+          <th>Position</th>
+        </tr>
+      </thead>
       <tbody>
+        <% pair.rel_pair_comps.to_a.sort_by { |rel| Comp.find(rel.comp_id).date }.reverse.each do |rel| %>
+          <% comp = Comp.find(rel.comp_id) %>
           <tr>
-            <td><%= Comp.find(rel.comp_id).date %></td>
-            <td><%= rel.pos %></td>
+            <td><%= link_to comp.formatted_date, comp %></td>
             <td><%= rel.score %></td>
+            <td><%= rel.pos %></td>
           </tr>
+            <% end %>
       </tbody>
     </table>
-  <% end %>
+
+
 <% end %>
 
 

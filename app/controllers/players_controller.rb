@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  helper_method :sort_column, :sort_direction
+  helper_method :sort_column, :sort_direction, :find_player
   before_action :set_player, only: %i[ show edit update destroy ]
 
   # GET /players or /players.json
@@ -94,5 +94,11 @@ class PlayersController < ApplicationController
       when 'show'
         %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
       end
+    end
+
+    def find_player(full_name)
+      first_name = full_name.split[0]
+      last_name = full_name.split[1]
+      Player.find_by(first_name:first_name, last_name:last_name)
     end
 end

@@ -37,6 +37,37 @@ class Player < ApplicationRecord
     ((pos_pct_accum / rel_pair_comps.count) * field).round(1)
   end
 
+  def max_score(rels, max=true)
+    rels = rels.sort_by { |r| r.score }
+    max ? rels.last.score : rels.first.score
+  end
+
+  def max_pos(rels, max=true, field =20)
+    return 'na' if rels.count.zero?
+    rels = rels.sort_by { |r| r.position_pct }
+    ((max ? rels.first.position_pct : rels.last.position_pct) * field).round(1)
+  end
+
+# refactor these repeated methods (with variable) in due course
+  def a_s(rels)
+    score = 0
+    rels.each do |rel|
+      score += rel.score
+    end
+    return score if rels.count.zero?
+    (score / rels.count).round(2)
+  end
+
+# refactor in due course
+  def a_p(rels, field = 20)
+    pos_pct_accum = 0
+    rels.each do |rel|
+      pos_pct_accum += rel.position_pct
+    end
+    return pos_pct_accum if rels.count.zero?
+    ((pos_pct_accum / rels.count) * field).round(1)
+  end
+
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
@@ -44,5 +75,20 @@ class Player < ApplicationRecord
   def played
     rel_pair_comps.count
   end
+
+  def partner_name(pair)
+    pair_names = pair.name.split('&').map { |player| player.strip }
+    pair_names[0] == self.full_name ? pair_names[1] : pair_names[0]
+  end
+
+def first_played
+  return 'na' if comps.nil?
+  comps.sort_by { |c| c.date}.first.formatted_date
+end
+
+def last_played
+  return 'na' if comps.nil?
+  comps.sort_by { |c| c.date}.last.formatted_date
+end
 
 end
