@@ -20,6 +20,8 @@ class PairsController < ApplicationController
       @pairs = Pair.all.to_a.sort_by { |p| -p.played }
       @pairs.reverse! if sort_direction == 'desc'
     end
+    # to determine rank in view
+    @pairs_by_score = Pair.all.sort_by { |p| -p.average_score }
   end
 
   # GET /pairs/1 or /pairs/1.json
@@ -91,7 +93,7 @@ class PairsController < ApplicationController
       # Sanitizing the search options, so only items specified in the list can get through
       case view
       when 'index'
-        %w[Pair AvScore AvPos Played].include?(params[:sort]) ? params[:sort] : 'Pair'
+        %w[Pair AvScore AvPos Played].include?(params[:sort]) ? params[:sort] : 'AvScore'
       when 'show'
         %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
       end

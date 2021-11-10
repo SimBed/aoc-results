@@ -10,8 +10,8 @@ class RelPairCompsController < ApplicationController
       @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| Pair.find(rel.pair_id).name }
       @rel_pair_comps.reverse! if sort_direction == 'desc'
     when 'Comp'
-      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| Comp.find(rel.comp_id).date }
-      @rel_pair_comps.reverse! if sort_direction == 'desc'
+      @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| [Comp.find(rel.comp_id).date, rel.score] }
+      @rel_pair_comps.reverse! if sort_direction == 'asc'
       # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
     when 'Score'
       @rel_pair_comps = RelPairComp.all.to_a.sort_by { |rel| -rel.score }
@@ -91,7 +91,7 @@ class RelPairCompsController < ApplicationController
       # Sanitizing the search options, so only items specified in the list can get through
       case view
       when 'index'
-        %w[Pair Comp Score Position].include?(params[:sort]) ? params[:sort] : 'Pair'
+        %w[Pair Comp Score Position].include?(params[:sort]) ? params[:sort] : 'Comp'
       when 'show'
         %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
       end

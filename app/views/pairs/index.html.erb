@@ -6,6 +6,7 @@
 <table>
   <thead>
     <tr>
+      <th>Rank</th>
       <th><%= sortable(column: "Pair", view: "index") %></th>
       <th><%= sortable(column: "AvScore", view: "index") %></th>
       <th><%= sortable(column: "AvPos", view: "index") %><small> (of 20)</small></th>
@@ -17,6 +18,7 @@
   <tbody>
     <% @pairs.each do |pair| %>
       <tr>
+        <td><%= @pairs_by_score.index(pair) + 1 %></td>
         <td><%= pair.name %></td>
         <td><%= pair.average_score %></td>
         <td><%= pair.average_position %></td>

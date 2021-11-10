@@ -23,10 +23,15 @@ class PlayersController < ApplicationController
       @players = Player.all.to_a.sort_by { |p| -p.played }
       @players.reverse! if sort_direction == 'desc'
     end
+    # to determine rank in view
+    @players_by_score = Player.all.sort_by { |p| -p.average_score }
   end
 
   # GET /players/1 or /players/1.json
   def show
+    @partners = @player.pairs.map { |p| [@player.partner_name(p), p.id] }
+    params[:pair] = @player.pairs.map { |p| p.id }.include?(params[:pair].to_i) ? params[:pair] : @player.pairs.first.id
+    @pair = Pair.find(params[:pair]) || @player.pairs.first
   end
 
   # GET /players/new
@@ -90,7 +95,7 @@ class PlayersController < ApplicationController
       # Sanitizing the search options, so only items specified in the list can get through
       case view
       when 'index'
-        %w[first_name last_name AvScore AvPos Played].include?(params[:sort]) ? params[:sort] : 'first_name'
+        %w[first_name last_name AvScore AvPos Played].include?(params[:sort]) ? params[:sort] : 'AvScore'
       when 'show'
         %w[notrelevantyet].include?(params[:sort]) ? params[:sort] : 'first_name'
       end

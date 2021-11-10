@@ -37,15 +37,25 @@ class Player < ApplicationRecord
     ((pos_pct_accum / rel_pair_comps.count) * field).round(1)
   end
 
-  def max_score(rels, max=true)
-    rels = rels.sort_by { |r| r.score }
-    max ? rels.last.score : rels.first.score
+  def max_score(rels)
+    rel = rels.sort_by { |r| r.score }.last
+    { score: rel.score, comp: Comp.find(rel.comp_id) }
   end
 
-  def max_pos(rels, max=true, field =20)
+  def min_score(rels)
+    rel = rels.sort_by { |r| r.score }.first
+    { score: rel.score, comp: Comp.find(rel.comp_id) }
+  end
+
+  def max_pos(rels, max: true, standardise: true, field: 20)
     return 'na' if rels.count.zero?
-    rels = rels.sort_by { |r| r.position_pct }
-    ((max ? rels.first.position_pct : rels.last.position_pct) * field).round(1)
+    if standardise
+      rels = rels.sort_by { |r| r.position_pct }
+      ((max ? rels.first.position_pct : rels.last.position_pct) * field).round(1)
+    else
+      rels = rels.sort_by { |r| r.pos }
+      (max ? rels.first.pos : rels.last.pos)
+    end
   end
 
 # refactor these repeated methods (with variable) in due course
@@ -83,12 +93,17 @@ class Player < ApplicationRecord
 
 def first_played
   return 'na' if comps.nil?
-  comps.sort_by { |c| c.date}.first.formatted_date
+  comps.sort_by { |c| c.date}.first
 end
 
 def last_played
   return 'na' if comps.nil?
-  comps.sort_by { |c| c.date}.last.formatted_date
+  comps.sort_by { |c| c.date}.last
+end
+
+#not used - this runs too slowly to perform the sort for each player. The sort is done once in the controller instead and the index in the view
+def rank
+  Player.all.sort_by { |p| -p.average_score }.index(self) + 1
 end
 
 end
