@@ -20,11 +20,13 @@ class Player < ApplicationRecord
   end
 
   def average_score
-    score = 0
-    rel_pair_comps.each do |rel|
-      score += rel.score
-    end
-    return score if rel_pair_comps.count.zero?
+    # score = 0
+    # rel_pair_comps.each do |rel|
+    #   score += rel.score
+    # end
+    return 0 if rel_pair_comps.count.zero?
+    # sum is a rails implementation for arrays
+    score = rel_pair_comps.map(&:score).sum
     (score / rel_pair_comps.count).round(2)
   end
 

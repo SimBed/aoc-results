@@ -1,12 +1,44 @@
-<p>
-  <strong>Pair1:</strong>
-  <%= @pair.name.split(' & ')[0] %>
-</p>
+<h3> <%= @pair.name %> </h3>
+<table>
+  <tbody>
+    <tr>
+      <td>comps</td>
+      <td> <%= @pair.played %></td>
+    </tr>
+    <tr>
+      <td>first played</td>
+      <td> <%= link_to @pair.first_played.formatted_date, @pair.first_played %></td>
+    </tr>
+    <tr>
+      <td>last played</td>
+      <td> <%= link_to @pair.last_played.formatted_date, @pair.last_played %></td>
+    </tr>
+    <tr>
+      <td>max score</td>
+      <% max_score = @pair.max_score(@pair.rel_pair_comps) %>
+      <td> <%= "#{max_score[:score]} on "%> <%= link_to max_score[:comp].formatted_date, max_score[:comp] %></td>
+    </tr>
+    <tr>
+      <td>av score</td>
+      <td> <%= @pair.average_score %></td>
+    </tr>
+    <tr>
+      <td>min score</td>
+      <% min_score=@pair.min_score(@pair.rel_pair_comps) %>
+      <td> <%= "#{min_score[:score]} on "%> <%= link_to min_score[:comp].formatted_date, min_score[:comp] %></td>
+    </tr>
+    <tr>
+      <td>highest pos</td>
+      <td> <%=@pair.max_pos(@pair.rel_pair_comps, standardise: false) %></td>
+    </tr>
+    <tr>
+      <td>av pos (of 20)</td>
+      <td> <%= @pair.average_position %></td>
+    </tr>
+    <tr>
+      <td>lowest pos (of 20)</td>
+      <td> <%=@pair.max_pos(@pair.rel_pair_comps, max: false, standardise: true) %></td>
+    </tr>
 
-<p>
-  <strong>Pair2:</strong>
-  <%= @pair.name.split(' & ')[1] %>
-</p>
-
-<%= link_to 'Edit', edit_pair_path(@pair) %> |
-<%= link_to 'Back', pairs_path %>
+  </tbody>
+</table>

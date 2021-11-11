@@ -33,6 +33,37 @@ class Pair < ApplicationRecord
     rel_pair_comps.count
   end
 
+  def first_played
+    return 'na' if comps.nil?
+    comps.sort_by { |c| c.date}.first
+  end
+
+  def last_played
+    return 'na' if comps.nil?
+    comps.sort_by { |c| c.date}.last
+  end
+
+  def max_score(rels)
+    rel = rels.sort_by { |r| r.score }.last
+    { score: rel.score, comp: Comp.find(rel.comp_id) }
+  end
+
+  def min_score(rels)
+    rel = rels.sort_by { |r| r.score }.first
+    { score: rel.score, comp: Comp.find(rel.comp_id) }
+  end
+
+  def max_pos(rels, max: true, standardise: true, field: 20)
+    return 'na' if rels.count.zero?
+    if standardise
+      rels = rels.sort_by { |r| r.position_pct }
+      ((max ? rels.first.position_pct : rels.last.position_pct) * field).round(1)
+    else
+      rels = rels.sort_by { |r| r.pos }
+      (max ? rels.first.pos : rels.last.pos)
+    end
+  end
+
   private
 
   # reformat to use exists?
