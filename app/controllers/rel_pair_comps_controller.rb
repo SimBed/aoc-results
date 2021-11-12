@@ -84,7 +84,7 @@ class RelPairCompsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def rel_pair_comp_params
-      params.require(:rel_pair_comp).permit(:pair_id, :comp_id, :score, :position)
+      params.require(:rel_pair_comp).permit(:pair_id, :comp_id, :score)
     end
 
     def sort_column(view)
