@@ -13,11 +13,14 @@ class PlayersController < ApplicationController
       # if Player.column_names.include?(sort_column)
       @players = Player.order("#{sort_column('index')} #{sort_direction}")
     when 'AvScore'
-      @players = Player.all.to_a.sort_by { |p| -p.average_score }
+      # @players = Player.all.to_a.sort_by { |p| -p.average_score }
+      # reformatted with sql in attempt to speed up
+      @players = Player.order_by_av_score
+      # @players = records_array.map { |p| Player.find(p["pid"])}
       @players.reverse! if sort_direction == 'desc'
-      # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
     when 'AvPos'
-      @players = Player.all.to_a.sort_by { |p| -p.average_position }
+      # @players = Player.all.to_a.sort_by { |p| -p.average_position }
+      @players = Player.order_by_av_position
       @players.reverse! if sort_direction == 'desc'
     when 'Played'
       @players = Player.all.to_a.sort_by { |p| -p.played }

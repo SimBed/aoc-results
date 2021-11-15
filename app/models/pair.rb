@@ -64,6 +64,30 @@ class Pair < ApplicationRecord
     end
   end
 
+  def self.order_by_av_score
+    sql = "SELECT pid, AVG(score) avgscore FROM
+          (SELECT pairs.id pid, rel.score score FROM pairs
+           INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id) t
+           GROUP BY pid ORDER BY avgscore DESC;"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    ordered_pairs_id_array = records_array.values.each {|row| row.delete_at 1}.flatten
+    Pair.find(ordered_pairs_id_array)
+  end
+
+  def self.order_by_av_position
+    sql = "WITH v1 AS (
+              SELECT pairs.id AS pairid, comps.id AS compid, rel.score AS score,
+                     RANK() OVER ( PARTITION BY comps.id ORDER BY score DESC) AS rank
+              FROM pairs INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id
+                         INNER JOIN comps ON comps.id = rel.comp_id
+              ORDER BY pairs.id
+                      )
+           SELECT pairid, avg(rank) FROM v1 GROUP BY pairid ORDER BY pairid;"
+    records_array = ActiveRecord::Base.connection.execute(sql)
+    ordered_pairs_id_array = records_array.values.each {|row| row.delete_at 1}.flatten
+    Pair.find(ordered_pairs_id_array)
+  end
+
   private
 
   # reformat to use exists?
