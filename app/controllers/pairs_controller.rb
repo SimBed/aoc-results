@@ -10,11 +10,13 @@ class PairsController < ApplicationController
       @pairs = Pair.all.to_a.sort_by { |p| p.name }
       @pairs.reverse! if sort_direction == 'desc'
     when 'AvScore'
-      @pairs = Pair.all.to_a.sort_by { |p| -p.average_score }
+      # @pairs = Pair.all.to_a.sort_by { |p| -p.average_score }
+      @pairs = Pair.order_by_av_score
       @pairs.reverse! if sort_direction == 'desc'
       # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
     when 'AvPos'
-      @pairs = Pair.all.to_a.sort_by { |p| -p.average_position }
+      # @pairs = Pair.all.to_a.sort_by { |p| -p.average_position }
+      @pairs= Pair.order_by_av_position
       @pairs.reverse! if sort_direction == 'desc'
     when 'Played'
       @pairs = Pair.all.to_a.sort_by { |p| -p.played }
