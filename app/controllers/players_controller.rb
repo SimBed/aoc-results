@@ -18,6 +18,7 @@ class PlayersController < ApplicationController
       @players = Player.order_by_av_score
       # @players = records_array.map { |p| Player.find(p["pid"])}
       @players.reverse! if sort_direction == 'desc'
+    # deprecated
     when 'AvPos'
       # @players = Player.all.to_a.sort_by { |p| -p.average_position }
       @players = Player.order_by_av_position

@@ -1,7 +1,7 @@
-<%= link_to 'New Pair', new_pair_path %>
+<%#= link_to 'New Pair', new_pair_path %>
 <br><br>
 
-<h5>Pairs (<%=@pairs.size%>)</h5>
+<h5>Pairs (<%=@pair_hashes.size%>)</h5>
 
 <table>
   <thead>
@@ -9,21 +9,22 @@
       <th>Rank</th>
       <th><%= sortable(column: "Pair", view: "index") %></th>
       <th><%= sortable(column: "AvScore", view: "index") %></th>
-      <th><%= sortable(column: "AvPos", view: "index") %><small> (of 20)</small></th>
+      <!--th><%#= sortable(column: "AvPos", view: "index") %><small> (of 20)</small></th-->
       <th><%= sortable(column: "Played", view: "index") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @pairs.each do |pair| %>
+    <% @pair_hashes.each do |pair_hash| %>
       <tr>
-        <td><%= @pairs_by_score.index(pair) + 1 %></td>
-        <td><%= pair.name %></td>
-        <td><%= pair.average_score %></td>
-        <td><%= pair.average_position %></td>
-        <td><%= pair.played %></td>
-        <td><%= link_to 'Show', pair %></td>
+        <!--td><%#= @pairs_by_score.index(pair) + 1 %></td-->
+        <td><%= pair_hash["rank"] %></td>
+        <td><%= "#{pair_hash["p1firstname"]} #{pair_hash["p1lasttname"]} & #{pair_hash["p2firstname"]} #{pair_hash["p2lastname"]}" %></td>
+        <td><%= pair_hash["avgscore"].round(2) %></td>
+        <!--td><%#= pair.average_position %></td-->
+        <td><%= pair_hash["played"] %></td>
+        <td><%= link_to 'Show', Pair.find(pair_hash["pairid"]) %></td>
         <!--td><%#= link_to 'Edit', edit_pair_path(pair) %></td>
         <td><%#= link_to 'Destroy', pair, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
       </tr>

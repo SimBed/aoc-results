@@ -7,23 +7,20 @@ class PairsController < ApplicationController
     case sort_column('index')
 
     when 'Pair'
-      @pairs = Pair.all.to_a.sort_by { |p| p.name }
-      @pairs.reverse! if sort_direction == 'desc'
+      # @pairs = Pair.all.to_a.sort_by { |p| p.name }
+      # @pairs.reverse! if sort_direction == 'desc'
+      @pair_hashes = Pair.order_by_name
+      @pair_hashes.reverse! if sort_direction == 'desc'
     when 'AvScore'
       # @pairs = Pair.all.to_a.sort_by { |p| -p.average_score }
-      @pairs = Pair.order_by_av_score
-      @pairs.reverse! if sort_direction == 'desc'
-      # @matches = @player.matches.to_a.sort_by { |m| @player.send(sort_column('show'), m) }
-    when 'AvPos'
-      # @pairs = Pair.all.to_a.sort_by { |p| -p.average_position }
-      @pairs= Pair.order_by_av_position
-      @pairs.reverse! if sort_direction == 'desc'
+      @pair_hashes = Pair.order_by_av_score
+      @pair_hashes.reverse! if sort_direction == 'desc'
     when 'Played'
-      @pairs = Pair.all.to_a.sort_by { |p| -p.played }
-      @pairs.reverse! if sort_direction == 'desc'
+      # @pairs = Pair.all.to_a.sort_by { |p| -p.played }
+      # @pairs.reverse! if sort_direction == 'desc'
+      @pair_hashes = Pair.order_by_played
+      @pair_hashes.reverse! if sort_direction == 'desc'
     end
-    # to determine rank in view
-    @pairs_by_score = Pair.all.sort_by { |p| -p.average_score }
   end
 
   # GET /pairs/1 or /pairs/1.json

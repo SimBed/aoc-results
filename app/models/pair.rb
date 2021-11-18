@@ -65,13 +65,87 @@ class Pair < ApplicationRecord
   end
 
   def self.order_by_av_score
-    sql = "SELECT pid, AVG(score) avgscore FROM
-          (SELECT pairs.id pid, rel.score score FROM pairs
-           INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id) t
-           GROUP BY pid ORDER BY avgscore DESC;"
-    records_array = ActiveRecord::Base.connection.execute(sql)
-    ordered_pairs_id_array = records_array.values.each {|row| row.delete_at 1}.flatten
-    Pair.find(ordered_pairs_id_array)
+    # sql = "SELECT pid, AVG(score) avgscore FROM
+    #       (SELECT pairs.id pid, rel.score score FROM pairs
+    #        INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id) t
+    #        GROUP BY pid ORDER BY avgscore DESC;"
+    sql = "WITH v3 AS (
+             SELECT pairs.id AS pairid, rel.score AS score
+             FROM pairs INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id
+                      ),
+                V4 as (
+             SELECT pairid, avg(score) avgscore,
+                    RANK() OVER (ORDER BY avg(score) DESC) AS rank,
+                    count(score) played
+             FROM v3 GROUP BY pairid
+                      ),
+                V5 as (
+             SELECT pairid, avgscore, rank, played, p.first_name as p1firstname, p.last_name as p1lastname
+             FROM v4 INNER JOIN pairs ON v4.pairid = pairs.id
+                     INNER JOIN players p ON player1_id = p.id
+                      )
+           SELECT pairid, avgscore, rank, played,
+                  p1firstname, p1lastname, p.first_name as p2firstname, p.last_name as p2lastname
+           FROM v5 INNER JOIN pairs on v5.pairid = pairs.id INNER JOIN players p ON player2_id = p.id
+            ORDER BY avgscore DESC;"
+
+          #
+          #
+          #
+          # SELECT pairid, avg(score) avgscore,
+          #        RANK() OVER (ORDER BY avg(score) DESC) AS rank
+          # FROM v3 GROUP BY pairid ORDER BY avgscore DESC;"
+    # records_array = ActiveRecord::Base.connection.execute(sql)
+    # ordered_pairs_id_array = records_array.values.each {|row| row.delete_at 1}.each {|row| row.delete_at 1}.flatten
+    # Pair.find(ordered_pairs_id_array)
+    # runs the query, return an ActiveRecord::Result, which to_a turns into an array of hashes with the column names as keys
+    ActiveRecord::Base.connection.exec_query(sql).to_a
+  end
+
+  def self.order_by_name
+    sql = "WITH v3 AS (
+             SELECT pairs.id AS pairid, rel.score AS score
+             FROM pairs INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id
+                      ),
+                V4 as (
+             SELECT pairid, avg(score) avgscore,
+                    RANK() OVER (ORDER BY avg(score) DESC) AS rank,
+                    count(score) played
+             FROM v3 GROUP BY pairid
+                      ),
+                V5 as (
+             SELECT pairid, avgscore, rank, played, p.first_name as p1firstname, p.last_name as p1lastname
+             FROM v4 INNER JOIN pairs ON v4.pairid = pairs.id
+                     INNER JOIN players p ON player1_id = p.id
+                      )
+           SELECT pairid, avgscore, rank, played,
+                  p1firstname, p1lastname, p.first_name as p2firstname, p.last_name as p2lastname
+           FROM v5 INNER JOIN pairs on v5.pairid = pairs.id INNER JOIN players p ON player2_id = p.id
+            ORDER BY p1firstname, p1lastname, p2firstname, p2lastname;"
+    ActiveRecord::Base.connection.exec_query(sql).to_a
+  end
+
+  def self.order_by_played
+    sql = "WITH v3 AS (
+             SELECT pairs.id AS pairid, rel.score AS score
+             FROM pairs INNER JOIN rel_pair_comps rel ON pairs.id = rel.pair_id
+                      ),
+                V4 as (
+             SELECT pairid, avg(score) avgscore,
+                    RANK() OVER (ORDER BY avg(score) DESC) AS rank,
+                    count(score) played
+             FROM v3 GROUP BY pairid
+                      ),
+                V5 as (
+             SELECT pairid, avgscore, rank, played, p.first_name as p1firstname, p.last_name as p1lastname
+             FROM v4 INNER JOIN pairs ON v4.pairid = pairs.id
+                     INNER JOIN players p ON player1_id = p.id
+                      )
+           SELECT pairid, avgscore, rank, played,
+                  p1firstname, p1lastname, p.first_name as p2firstname, p.last_name as p2lastname
+           FROM v5 INNER JOIN pairs on v5.pairid = pairs.id INNER JOIN players p ON player2_id = p.id
+            ORDER BY played;"
+    ActiveRecord::Base.connection.exec_query(sql).to_a
   end
 
   def self.order_by_av_position

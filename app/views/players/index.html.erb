@@ -9,7 +9,7 @@
       <th><%= sortable(column: "first_name",coltitle: "First Name", view: "index") %></th>
       <th><%= sortable(column: "last_name",coltitle: "Last Name", view: "index") %></th>
       <th><%= sortable(column: "AvScore", view: "index") %></th>
-      <th><%= sortable(column: "AvPos", view: "index") %><small> (of 20)</small></th>
+      <!--th><%#= sortable(column: "AvPos", view: "index") %><small> (of 20)</small></th-->
       <th><%= sortable(column: "Played", view: "index") %></th>
       <th colspan="3"></th>
     </tr>
@@ -22,7 +22,7 @@
         <td><%= player.first_name %></td>
         <td><%= player.last_name %></td>
         <td><%= player.average_score %></td>
-        <td><%= player.average_position %></td>
+        <!--td><%#= player.average_position %></td-->
         <td><%= player.played %></td>
         <td><%= link_to 'Show', player %></td>
         <!--td><%#= link_to 'Edit', edit_player_path(player) %></td>

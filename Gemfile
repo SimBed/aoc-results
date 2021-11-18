@@ -52,6 +52,9 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  # some oddity ascribed to Ruby 3.0. Rails test fails without.
+  # https://stackoverflow.com/questions/65479863/rails-6-1-ruby-3-0-0-tests-error-as-they-cannot-load-rexml
+  gem 'rexml', '~> 3.2', '>= 3.2.4'  
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
