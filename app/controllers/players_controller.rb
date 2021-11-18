@@ -26,6 +26,14 @@ class PlayersController < ApplicationController
       @player_hashes = Player.order_by_played
       @player_hashes.reverse! if sort_direction == 'desc'
     end
+    # family = ["Daniel Simonis", "Martin Simonis", "Andy Kann", "Hazel Kann", "Kevin Simonis"]
+    if session[:filter_family]
+      family = Rails.application.config_for(:familyinfo)["ids"]
+      @player_hashes.select! { |p| family.include? p["pid"] }
+    end
+    if session[:filter_played]
+      @player_hashes.select! { |p| p["played"] >= 5 }
+    end
   end
 
   # GET /players/1 or /players/1.json
@@ -79,6 +87,18 @@ class PlayersController < ApplicationController
       format.html { redirect_to players_url, notice: "Player was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def filter
+    #clear_session(:filter_grade, :filter_status)
+    # Without the ors (||) the sessions would get set to nil when redirecting to players other than through the
+    # search form (e.g. by clicking players on the navbar) (as the params items are nil in these cases)
+    session[:filter_family] = nil
+    session[:filter_played] = nil
+    session[:filter_family] = params[:filter_family] || session[:filter_family]
+    session[:filter_played] = params[:filter_played] || session[:filter_played]
+
+    redirect_to players_path
   end
 
   private

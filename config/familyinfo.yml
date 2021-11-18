@@ -1,0 +1,20 @@
+default: &default
+ ids:
+  - 23
+  - 24
+  - 35
+  - 36
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+ ids:
+  - 52
+  - 53
+  - 63
+  - 64
+  - 126

@@ -1,0 +1,27 @@
+
+  <div class="container search">
+  <hr class = "search mb-3"></hr>
+
+  <%= form_with(url: "/players/filter", method: "get", local: false, class: "form-class") do %>
+
+  <div class="container mb-1">
+  <div class="row">
+  <div class="col-4 px-0">
+  <fieldset>
+    <legend>Filters</legend>
+      <div class ="d-flex">
+        <%= check_box_tag 'filter_family', 'family', session[:filter_family].present? ? session[:filter_family] == 'family' : false, class: "checkbox-class", id: "chboxfamily", onChange: "this.form.submit()" %>
+        <%= label_tag 'filter_family', 'SimKann only' %>
+        <%= check_box_tag 'filter_played', 'played', session[:filter_played].present? ? session[:filter_played] == 'played' : false, class: "checkbox-class", id: "chboxplayed", onChange: "this.form.submit()" %>
+        <%= label_tag 'filter_played', 'Played 5+ only' %>
+      </div>
+  </fieldset>
+  </div>
+
+  </div>
+  </div>
+
+<% end %>
+<hr class = "search mb-3"></hr>
+
+</div>

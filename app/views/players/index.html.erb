@@ -1,6 +1,9 @@
 <%#= link_to 'New Player', new_player_path %>
 <br><br>
 
+<%= render partial: 'filter_form' %>
+
+
 <h5>Players (<%= @player_hashes.size %>)</h5>
 <table>
   <thead>
