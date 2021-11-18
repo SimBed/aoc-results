@@ -9,26 +9,23 @@ class PlayersController < ApplicationController
     # the data to be extracted to a Ruby array and sorted from there.
     case sort_column('index')
 
-    when 'first_name', 'last_name'
+    when 'first_name'
+      @player_hashes = Player.order_by_firstname
+      @player_hashes.reverse! if sort_direction == 'desc'
       # if Player.column_names.include?(sort_column)
-      @players = Player.order("#{sort_column('index')} #{sort_direction}")
+      # @players = Player.order("#{sort_column('index')} #{sort_direction}")
+    when 'last_name'
+      @player_hashes = Player.order_by_lastname
+      @player_hashes.reverse! if sort_direction == 'desc'
     when 'AvScore'
       # @players = Player.all.to_a.sort_by { |p| -p.average_score }
       # reformatted with sql in attempt to speed up
-      @players = Player.order_by_av_score
-      # @players = records_array.map { |p| Player.find(p["pid"])}
-      @players.reverse! if sort_direction == 'desc'
-    # deprecated
-    when 'AvPos'
-      # @players = Player.all.to_a.sort_by { |p| -p.average_position }
-      @players = Player.order_by_av_position
-      @players.reverse! if sort_direction == 'desc'
+      @player_hashes = Player.order_by_av_score
+      @player_hashes.reverse! if sort_direction == 'desc'
     when 'Played'
-      @players = Player.all.to_a.sort_by { |p| -p.played }
-      @players.reverse! if sort_direction == 'desc'
+      @player_hashes = Player.order_by_played
+      @player_hashes.reverse! if sort_direction == 'desc'
     end
-    # to determine rank in view
-    @players_by_score = Player.all.sort_by { |p| -p.average_score }
   end
 
   # GET /players/1 or /players/1.json

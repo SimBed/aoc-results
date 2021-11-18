@@ -1,7 +1,7 @@
 <%#= link_to 'New Player', new_player_path %>
 <br><br>
 
-<h5>Players (<%=@players.size%>)</h5>
+<h5>Players (<%= @player_hashes.size %>)</h5>
 <table>
   <thead>
     <tr>
@@ -16,15 +16,14 @@
   </thead>
 
   <tbody>
-    <% @players.each do |player| %>
+    <% @player_hashes.each do |player_hash| %>
       <tr>
-        <td><%= @players_by_score.index(player) + 1 %></td>
-        <td><%= player.first_name %></td>
-        <td><%= player.last_name %></td>
-        <td><%= player.average_score %></td>
-        <!--td><%#= player.average_position %></td-->
-        <td><%= player.played %></td>
-        <td><%= link_to 'Show', player %></td>
+        <td><%= player_hash["rank"] %></td>
+        <td><%= player_hash["firstname"] %></td>
+        <td><%= player_hash["lastname"] %></td>
+        <td><%= player_hash["avgscore"].round(2) %></td>
+        <td><%= player_hash["played"]  %></td>
+        <td><%= link_to 'Show', Player.find(player_hash["pid"]) %></td>
         <!--td><%#= link_to 'Edit', edit_player_path(player) %></td>
         <td><%#= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
       </tr>
