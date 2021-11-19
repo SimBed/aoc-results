@@ -5,6 +5,10 @@ $font-stack:  Montserrat, Arial;
 $gray-light:  #d8d8d8; /*medium grey*/
 $gray-darker:  #808080;
 $gray-darkest: #474444;
+$bg-light: #f8f9fa;
+$bg-dark:#343a40;
+$blue-search: #6cbbf7;
+$gray-darkest: #474444;
 
 body {
   padding-top: 20px;
@@ -53,6 +57,10 @@ pre {
 a:hover {
   color: #fff;
   background-color: #000; }
+
+a.show_icon:hover {
+  background-color: $bg-light;
+ }
 
 th {
   padding-bottom: 5px; }
@@ -129,4 +137,67 @@ background-image: image-url('down_arrow.gif');
 
 textarea.full_width {
   width: 95%;
+}
+
+hr.search {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: -2em;
+  margin-right: -2em;
+}
+
+input.search[type="text"] {
+  color: $bg-dark;
+	border:solid;
+	border-color:$bg-light;
+  background-color: $bg-light;
+  border-width: 1px;
+	width: 80%;
+	padding: .3em;
+  border-radius: 0.5em;
+/*	padding-left: 32px;*/
+}
+
+input.search[type="text"]:focus {
+  color: $bg-dark;
+  border-color: $blue-search;
+  outline: 0;
+}
+
+/*couldn't get to the bottom of why this is needed but checkbox and checkbox label misaligned without */
+input[type="checkbox"] {
+margin: 3px 3px 3px 4px;
+}
+
+div.search {
+	position:relative;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin:0;
+}
+
+.searchdelete {
+  margin-left:auto;
+}
+
+/*checkbox & checkbox label for search*/
+form fieldset {
+  color: $gray-darkest;
+  font-family: $font-stack;
+  font-size: 0.9em;
+  font-weight: normal;
+  label {
+    margin-right: 0.5rem;
+    margin-bottom: 0.1rem;
+  }
+  input {
+    /*margin-bottom: 0.1rem;*/
+  }
+}
+
+legend {
+  width:auto;
+  font-size: 0.9rem;
+  font-weight: normal;
+  padding-right: 0.75rem;
 }

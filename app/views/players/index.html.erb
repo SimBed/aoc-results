@@ -1,8 +1,5 @@
-<%#= link_to 'New Player', new_player_path %>
-<br><br>
-
 <%= render partial: 'filter_form' %>
-
+<%#= link_to 'New Player', new_player_path %>
 
 <h5>Players (<%= @player_hashes.size %>)</h5>
 <table>
@@ -26,7 +23,8 @@
         <td><%= player_hash["lastname"] %></td>
         <td><%= player_hash["avgscore"].round(2) %></td>
         <td><%= player_hash["played"]  %></td>
-        <td><%= link_to 'Show', Player.find(player_hash["pid"]) %></td>
+        <!--td><%#= link_to 'Show', Player.find(player_hash["pid"]) %></td--->
+        <td><%= link_to image_tag('show.png'), Player.find(player_hash["pid"]), class: "show_icon" %></td>
         <!--td><%#= link_to 'Edit', edit_player_path(player) %></td>
         <td><%#= link_to 'Destroy', player, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
       </tr>

@@ -21,6 +21,13 @@ class PairsController < ApplicationController
       @pair_hashes = Pair.order_by_played
       @pair_hashes.reverse! if sort_direction == 'desc'
     end
+    if session[:filter_family]
+      family = Rails.application.config_for(:familyinfo)["ids"]
+      @pair_hashes.select! { |p| (family - [Pair.find(p["pairid"]).player1_id, Pair.find(p["pairid"]).player2_id]).size < family.size  }
+    end
+    if session[:filter_played]
+      @pair_hashes.select! { |p| p["played"] >= 5 }
+    end
   end
 
   # GET /pairs/1 or /pairs/1.json
@@ -75,6 +82,15 @@ class PairsController < ApplicationController
       format.html { redirect_to pairs_url, notice: "Pair was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def filter
+    session[:filter_family] = nil
+    session[:filter_played] = nil
+    session[:filter_family] = params[:filter_family] || session[:filter_family]
+    session[:filter_played] = params[:filter_played] || session[:filter_played]
+
+    redirect_to pairs_path
   end
 
   private
