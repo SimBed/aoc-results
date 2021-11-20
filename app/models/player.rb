@@ -56,12 +56,11 @@ class Player < ApplicationRecord
 
   def max_pos(rels, max: true, standardise: true, field: 20)
     return 'na' if rels.count.zero?
+    rels = rels.sort_by { |r| r.position_pct }
     if standardise
-      rels = rels.sort_by { |r| r.position_pct }
       ((max ? rels.first.position_pct : rels.last.position_pct) * field).round(1)
     else
-      rels = rels.sort_by { |r| r.pos }
-      (max ? rels.first.pos : rels.last.pos)
+      (max ? [rels.first.pos, rels.first.comp.rel_pair_comps.count] : [rels.last.pos, rels.last.comp.rel_pair_comps.count])
     end
   end
 

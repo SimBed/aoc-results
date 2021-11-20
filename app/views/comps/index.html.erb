@@ -1,6 +1,4 @@
-<%= link_to 'New Comp', new_comp_path %>
-<br><br>
-
+<%#= link_to 'New Comp', new_comp_path %>
 <h5>Competitions (<%=@comps.count%>)</h5>
 
 <table>
@@ -17,7 +15,7 @@
       <tr>
         <td><%= comp.formatted_date %></td>
         <td><%= comp.pairs.count %></td>
-        <td><%= link_to 'Show', comp %></td>
+        <td><%= link_to image_tag('show.png'), comp, class: "show_icon" %></td>
       </tr>
     <% end %>
   </tbody>

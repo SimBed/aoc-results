@@ -17,68 +17,82 @@
       <td>last played</td>
       <td> <%= link_to @player.last_played.formatted_date, @player.last_played %></td>
     </tr>
-      <tr>
-        <td>max score</td>
-        <% max_score = @player.max_score(@player.rel_pair_comps) %>
-        <td> <%= "#{max_score[:score]} on "%> <%= link_to max_score[:comp].formatted_date, max_score[:comp] %></td>
-      </tr>
-      <tr>
-        <td>av score</td>
-        <td> <%= @player.average_score %></td>
-      </tr>
-      <tr>
-        <td>min score</td>
-        <% min_score=@player.min_score(@player.rel_pair_comps) %>
-        <td> <%= "#{min_score[:score]} on "%> <%= link_to min_score[:comp].formatted_date, min_score[:comp] %></td>
-      </tr>
-      <tr>
-        <td>highest pos</td>
-        <td> <%=@player.max_pos(@player.rel_pair_comps, standardise: false) %></td>
-      </tr>
-      <tr>
-        <td>av pos (of 20)</td>
-        <td> <%= @player.average_position %></td>
-      </tr>
-      <tr>
-        <td>lowest pos (of 20)</td>
-      <td> <%=@player.max_pos(@player.rel_pair_comps, max: false, standardise: true) %></td>
-      </tr>
-
+    <tr>
+      <td>highest score</td>
+      <% max_score = @player.max_score(@player.rel_pair_comps) %>
+      <td> <%= "#{max_score[:score]} on "%> <%= link_to max_score[:comp].formatted_date, max_score[:comp] %></td>
+    </tr>
+    <tr>
+      <td>average score</td>
+      <td> <%= @player.average_score %></td>
+    </tr>
+    <tr>
+      <td>lowest score</td>
+      <% min_score=@player.min_score(@player.rel_pair_comps) %>
+      <td> <%= "#{min_score[:score]} on "%> <%= link_to min_score[:comp].formatted_date, min_score[:comp] %></td>
+    </tr>
+    <tr>
+      <td>highest place</td>
+      <% highplace = @player.max_pos(@player.rel_pair_comps, standardise: false) %>
+      <td> <%= highplace[0] %> <small><%= "(of #{ highplace[1] })" %></small></td>
+    </tr>
+    <tr>
+      <td>average place</td>
+      <td> <%= @player.average_position %> <small> (of 20)</small></td>
+    </tr>
+    <tr>
+      <td>lowest place</td>
+      <% lowplace = @player.max_pos(@player.rel_pair_comps, max: false, standardise: false) %>
+      <td> <%= lowplace[0] %> <small><%= "(of #{ lowplace[1] })" %></small></td>
+    </tr>
   </tbody>
 </table>
+
 <% @player.pairs.each do |pair| %>
   <% partner = @player.partner_name(pair) %>
 <h4 class="mt-4"><small>with partner</small> <%=  link_to partner, find_player(partner) %> </h4>
-
 <table>
   <tbody>
-      <tr>
-        <td>max score</td>
-        <% max_score = @player.max_score(pair.rel_pair_comps) %>
-        <td> <%= "#{max_score[:score]} on "%> <%= link_to max_score[:comp].formatted_date, max_score[:comp] %></td>
-      </tr>
-      <tr>
-        <td>av score</td>
-        <td> <%= @player.a_s(pair.rel_pair_comps) %></td>
-      </tr>
-      <tr>
-        <td>min score</td>
-        <% min_score = @player.min_score(pair.rel_pair_comps) %>
-        <td> <%= "#{min_score[:score]} on "%> <%= link_to min_score[:comp].formatted_date, min_score[:comp] %></td>
-      </tr>
-      <tr>
-        <td>highest pos</td>
-        <td> <%=@player.max_pos(pair.rel_pair_comps, standardise: false) %></td>
-      </tr>
-      <tr>
-        <td>av pos (of 20)</td>
-        <td> <%= @player.a_p(pair.rel_pair_comps) %></td>
-      </tr>
-      <tr>
-        <td>lowest pos (of 20)</td>
-      <td> <%=@player.max_pos(pair.rel_pair_comps, max: false) %></td>
-      </tr>
-
+    <tr>
+      <td>comps</td>
+      <td><%= pair.comps.count %> </td>
+    </tr>
+    <tr>
+      <td>first played</td>
+      <td> <%= link_to pair.first_played.formatted_date, pair.first_played  %></td>
+    </tr>
+    <tr>
+      <td>last played</td>
+      <td> <%= link_to pair.last_played.formatted_date, pair.last_played %></td>
+    </tr>
+    <tr>
+      <td>highest score</td>
+      <% max_score = @player.max_score(pair.rel_pair_comps) %>
+      <td> <%= "#{max_score[:score]} on "%> <%= link_to max_score[:comp].formatted_date, max_score[:comp] %></td>
+    </tr>
+    <tr>
+      <td>average score</td>
+      <td> <%= @player.a_s(pair.rel_pair_comps) %></td>
+    </tr>
+    <tr>
+      <td>lowest score</td>
+      <% min_score = @player.min_score(pair.rel_pair_comps) %>
+      <td> <%= "#{min_score[:score]} on "%> <%= link_to min_score[:comp].formatted_date, min_score[:comp] %></td>
+    </tr>
+    <tr>
+      <td>highest place</td>
+      <% highplace = @player.max_pos(pair.rel_pair_comps, standardise: false) %>
+      <td> <%= highplace[0] %> <small><%= "(of #{ highplace[1] })" %></small></td>
+    </tr>
+    <tr>
+      <td>average place</td>
+      <td> <%= @player.a_p(pair.rel_pair_comps) %> <small> (of 20)</small></td>
+    </tr>
+    <tr>
+      <td>lowest place</td>
+      <% lowplace = @player.max_pos(pair.rel_pair_comps, max: false, standardise: false) %>
+      <td> <%= lowplace[0] %> <small><%= "(of #{ lowplace[1] })" %></small></td>
+    </tr>
   </tbody>
 </table>
 
@@ -113,4 +127,4 @@
 </table>
 
 <!--%= link_to 'Edit', edit_player_path(@player) %-->
-<%= link_to 'Back', players_path %>
+<%#= link_to 'Back', players_path %>
