@@ -183,7 +183,7 @@ def self.order_by_lastname
               	   )
               SELECT pid, avgscore, played, rank, p.first_name AS firstname, p.last_name AS lastname
               FROM v3 INNER JOIN players p ON p.id = v3.pid
-              ORDER BY firstname;"
+              ORDER BY lastname;"
     ActiveRecord::Base.connection.exec_query(sql).to_a
 end
 
