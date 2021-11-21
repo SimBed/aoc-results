@@ -1,0 +1,19 @@
+<table>
+  <thead>
+    <tr>
+      <th>Comp</th>
+      <th>Score</th>
+      <th>Position</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pair.rel_pair_comps.to_a.sort_by { |rel| Comp.find(rel.comp_id).date }.reverse.each do |rel| %>
+      <% comp = Comp.find(rel.comp_id) %>
+      <tr>
+        <td><%= link_to comp.formatted_date, comp %></td>
+        <td><%= rel.score %></td>
+        <td><%= rel.pos %></td>
+      </tr>
+        <% end %>
+  </tbody>
+</table>
