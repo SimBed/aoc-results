@@ -22,7 +22,7 @@ class PairsController < ApplicationController
       @pair_hashes.reverse! if sort_direction == 'desc'
     end
     if session[:filter_family]
-      family = Rails.application.config_for(:familyinfo)["ids"]
+      family = Rails.application.config_for(:constants)["familyids"]
       @pair_hashes.select! { |p| (family - [Pair.find(p["pairid"]).player1_id, Pair.find(p["pairid"]).player2_id]).size < family.size  }
     end
     if session[:filter_played]
@@ -69,6 +69,7 @@ class PairsController < ApplicationController
         format.html { redirect_to @pair, notice: "Pair was successfully updated." }
         format.json { render :show, status: :ok, location: @pair }
       else
+        @players =  Player.all.map { |p| [p.full_name, p.id] }
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @pair.errors, status: :unprocessable_entity }
       end
@@ -101,7 +102,7 @@ class PairsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pair_params
-      params.require(:pair).permit(:player1_id, :player2_id)
+      params.require(:pair).permit(:player1_id, :player2_id, :notrump, :system)
     end
 
     def sort_column(view)

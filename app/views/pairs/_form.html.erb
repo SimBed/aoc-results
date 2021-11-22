@@ -21,6 +21,16 @@
     <%= form.select :player2_id, @players %>
   </div>
 
+  <div class="field">
+    <%= form.label :notrump %>
+    <%= form.select :notrump, Rails.application.config_for(:constants)["notrump"] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :system %>
+    <%= form.select :system, Rails.application.config_for(:constants)["system"] %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

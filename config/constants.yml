@@ -1,9 +1,18 @@
 default: &default
- ids:
+ familyids:
   - 23
   - 24
   - 35
   - 36
+
+ notrump:
+  - Weak
+  - Strong
+  - Var
+
+ system:
+  - 5CM
+  - Acol
 
 development:
   <<: *default
@@ -12,7 +21,8 @@ test:
   <<: *default
 
 production:
- ids:
+ <<: *default
+ familyids:
   - 52
   - 53
   - 63

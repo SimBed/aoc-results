@@ -5,7 +5,5 @@ Rails.application.routes.draw do
   resources :pairs
   resources :players
   resources :comps
-  root 'comps#index'
-
-
+  root 'pairs#index'
 end

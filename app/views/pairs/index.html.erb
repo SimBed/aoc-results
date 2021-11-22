@@ -26,8 +26,8 @@
         <td><%= pair_hash["played"] %></td>
         <!--td><%#= link_to 'Show', Pair.find(pair_hash["pairid"]) %></td-->
         <td><%= link_to image_tag('show.png'), Pair.find(pair_hash["pairid"]), class: "show_icon" %></td>
-        <!--td><%#= link_to 'Edit', edit_pair_path(pair) %></td>
-        <td><%#= link_to 'Destroy', pair, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
+        <td><%= link_to 'Edit', edit_pair_path(Pair.find(pair_hash["pairid"])) %></td>
+        <!--td><%#= link_to 'Destroy', pair, method: :delete, data: { confirm: 'Are you sure?' } %></td-->
       </tr>
     <% end %>
   </tbody>

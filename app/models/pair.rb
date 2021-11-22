@@ -5,7 +5,8 @@ class Pair < ApplicationRecord
   belongs_to :player2, class_name: 'Player'
   validates :player1_id, uniqueness: {scope: :player2_id}
   validates :player2_id, uniqueness: {scope: :player1_id}
-  validate :pair_combination_must_be_unique
+  # https://stackoverflow.com/questions/24279948/rails-validate-only-on-create-or-on-update-when-field-is-not-blank
+  validate :pair_combination_must_be_unique, on: :create
 
   def average_score
     score = 0

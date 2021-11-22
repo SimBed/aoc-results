@@ -28,7 +28,7 @@ class PlayersController < ApplicationController
     end
     # family = ["Daniel Simonis", "Martin Simonis", "Andy Kann", "Hazel Kann", "Kevin Simonis"]
     if session[:filter_family]
-      family = Rails.application.config_for(:familyinfo)["ids"]
+      family = Rails.application.config_for(:constants)["familyids"]
       @player_hashes.select! { |p| family.include? p["pid"] }
     end
     if session[:filter_played]
