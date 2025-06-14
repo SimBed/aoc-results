@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# backup timetstamped devellopment database (courtesy mybestfriend)
+
+set -e #Exit immediately if a command exits with a non-zero status.
+
+# Define backup directory
+BACKUP_DIR="db/backups"
+
+# Ensure the backup directory exists
+mkdir -p "$BACKUP_DIR"
+
+# Get current timestamp
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+
+# Extract database name from config/database.yml (simple grep - adjust if needed)
+DB_NAME=$(grep "database:" config/database.yml | grep development | awk '{print $2}')
+
+# Set backup file name
+BACKUP_FILE="$BACKUP_DIR/${DB_NAME}_backup_$TIMESTAMP.sql"
+
+# Dump the database
+echo "Backing up database '$DB_NAME' to '$BACKUP_FILE'..."
+pg_dump "$DB_NAME" > "$BACKUP_FILE"
+
+echo "✅ Backup completed successfully."

@@ -37,3 +37,6 @@ app/helpers/*.txt
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+latest.dump
+/db/backups/*

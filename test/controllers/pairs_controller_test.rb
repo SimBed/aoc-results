@@ -3,6 +3,8 @@ require "test_helper"
 class PairsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @pair = pairs(:one)
+    @player1 = players(:one)
+    @player3 = players(:three)
   end
 
   test "should get index" do
@@ -17,10 +19,10 @@ class PairsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create pair" do
     assert_difference('Pair.count') do
-      post pairs_url, params: { pair: { pair1_id: @pair.pair1_id, pair2_id: @pair.pair2_id } }
+      post pairs_url, params: { pair: { player1_id: @player1.id, player2_id: @player3.id } }
     end
 
-    assert_redirected_to pair_url(Pair.last)
+    assert_redirected_to pairs_path
   end
 
   test "should show pair" do
@@ -34,7 +36,7 @@ class PairsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update pair" do
-    patch pair_url(@pair), params: { pair: { pair1_id: @pair.pair1_id, pair2_id: @pair.pair2_id } }
+    patch pair_url(@pair), params: { pair: { player1_id: @pair.player1_id, player2_id: @pair.player2_id } }
     assert_redirected_to pair_url(@pair)
   end
 

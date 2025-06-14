@@ -1,9 +1,14 @@
 default: &default
  familyids:
-  - 23
-  - 24
-  - 35
-  - 36
+  - 126
+  - 64
+  - 63
+  - 53
+  - 52
+  # - 23
+  # - 24
+  # - 35
+  # - 36
 
  notrump:
   - Weak

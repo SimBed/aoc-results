@@ -17,10 +17,10 @@ class RelPairCompsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create rel_pair_comp" do
     assert_difference('RelPairComp.count') do
-      post rel_pair_comps_url, params: { rel_pair_comp: { comp_id: @rel_pair_comp.comp_id, pair_id: @rel_pair_comp.pair_id, position: @rel_pair_comp.position, score: @rel_pair_comp.score } }
+      post rel_pair_comps_url, params: { rel_pair_comp: { comp_id: @rel_pair_comp.comp_id, pair_id: @rel_pair_comp.pair_id, score: @rel_pair_comp.score } }
     end
 
-    assert_redirected_to rel_pair_comp_url(RelPairComp.last)
+    assert_redirected_to rel_pair_comps_path
   end
 
   test "should show rel_pair_comp" do
@@ -34,7 +34,7 @@ class RelPairCompsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rel_pair_comp" do
-    patch rel_pair_comp_url(@rel_pair_comp), params: { rel_pair_comp: { comp_id: @rel_pair_comp.comp_id, pair_id: @rel_pair_comp.pair_id, position: @rel_pair_comp.position, score: @rel_pair_comp.score } }
+    patch rel_pair_comp_url(@rel_pair_comp), params: { rel_pair_comp: { comp_id: @rel_pair_comp.comp_id, pair_id: @rel_pair_comp.pair_id, score: @rel_pair_comp.score } }
     assert_redirected_to rel_pair_comp_url(@rel_pair_comp)
   end
 
